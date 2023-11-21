@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors')
 const swaggerUi= require('swagger-ui-express')
 const swaggerJson = require('./openapi.json')
-const routes = require("./controller/route/route");
+const routes = require("./src/routes/route");
 
 const corsOptions = {
     origin: '*', 

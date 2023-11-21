@@ -13,10 +13,14 @@ CREATE TYPE "StatusOrder" AS ENUM ('PAID', 'NOTPAID');
 -- CreateEnum
 CREATE TYPE "StatusCourse" AS ENUM ('PROGRESS', 'DONE');
 
+-- CreateEnum
+CREATE TYPE "StatusModule" AS ENUM ('PROGRESS', 'DONE');
+
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
     "handphone" TEXT NOT NULL,
     "country" TEXT,
     "city" TEXT,
@@ -31,8 +35,9 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Course" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
     "subtitle" TEXT NOT NULL,
     "description" TEXT,
     "classCode" TEXT NOT NULL,
@@ -43,28 +48,28 @@ CREATE TABLE "Course" (
     "level" "Level" NOT NULL DEFAULT 'BEGINNER',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "categoryId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "categoryId" TEXT NOT NULL,
 
     CONSTRAINT "Course_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Module" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "video" TEXT NOT NULL,
     "time" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "courseId" INTEGER NOT NULL,
+    "courseId" TEXT NOT NULL,
 
     CONSTRAINT "Module_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Category" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
@@ -72,23 +77,23 @@ CREATE TABLE "Category" (
 
 -- CreateTable
 CREATE TABLE "Order" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "status" "StatusOrder" NOT NULL DEFAULT 'NOTPAID',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "courseId" INTEGER NOT NULL,
-    "paymentId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "courseId" TEXT NOT NULL,
+    "paymentId" TEXT NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "CourseTracking" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "status" "StatusCourse" NOT NULL DEFAULT 'PROGRESS',
-    "userId" INTEGER NOT NULL,
-    "courseId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "courseId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -96,8 +101,20 @@ CREATE TABLE "CourseTracking" (
 );
 
 -- CreateTable
+CREATE TABLE "ModuleTracking" (
+    "id" TEXT NOT NULL,
+    "status" "StatusModule" NOT NULL DEFAULT 'PROGRESS',
+    "userId" TEXT NOT NULL,
+    "moduleId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ModuleTracking_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Payment" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "rek" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "number" INTEGER NOT NULL,
@@ -107,6 +124,19 @@ CREATE TABLE "Payment" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Notification" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "subtitle" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -135,3 +165,12 @@ ALTER TABLE "CourseTracking" ADD CONSTRAINT "CourseTracking_userId_fkey" FOREIGN
 
 -- AddForeignKey
 ALTER TABLE "CourseTracking" ADD CONSTRAINT "CourseTracking_courseId_fkey" FOREIGN KEY ("courseId") REFERENCES "Course"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ModuleTracking" ADD CONSTRAINT "ModuleTracking_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ModuleTracking" ADD CONSTRAINT "ModuleTracking_moduleId_fkey" FOREIGN KEY ("moduleId") REFERENCES "Module"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
