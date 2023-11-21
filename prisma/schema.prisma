@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Level {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum Type {
+  FREE
+  PREMIUM
+}
+
+enum StatusOrder {
+  PAID
+  NOTPAID
+}
+
+enum StatusCourse {
+  PROGRESS
+  DONE
+}
+
+model User{
+  id          Int       @id @default(autoincrement())  
+  name        String
+  handphone   String 
+  country     String?
+  city        String?
+  email       String    @unique
+  password    String 
+  role        Role      @default(USER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt 
+  course      Course[]  @relation("userCourse")
+  order       Order[]   @relation("userOrder")
+  courseTracking     CourseTracking[]  @relation("userCourseTracking")
+}
+
+model Course {
+  id          Int       @id @default(autoincrement()) 
+  title       String
+  subtitle    String
+  description String?
+  classCode   String
+  type        Type      @default(FREE)
+  authorBy    String
+  rating      Int
+  price       Int
+  level Level @default(BEGINNER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt 
+  
+  user        User?     @relation("userCourse",fields: [userId], references: [id])
+  userId      Int
+
+  module      Module[]  @relation("moduleList")
+
+  category    Category?     @relation("courseCategory",fields: [categoryId], references: [id])
+  categoryId  Int
+
+  order       Order[]   @relation("courseOrder")
+  courseTracking     CourseTracking[]   @relation("courseCourseTracking")
+}
+
+model Module {
+  id          Int       @id @default(autoincrement()) 
+  title String
+  video String
+  time Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  course      Course?   @relation("moduleList",fields: [courseId], references: [id])
+  courseId    Int 
+}
+
+model Category{
+  id          Int       @id @default(autoincrement()) 
+  title String
+  course      Course[]  @relation("courseCategory")
+}
+
+model Order {
+  id          Int       @id @default(autoincrement())
+  status      StatusOrder     @default(NOTPAID)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user        User?     @relation("userOrder",fields: [userId], references: [id])
+  userId      Int
+
+  course      Course?   @relation("courseOrder",fields: [courseId], references: [id])
+  courseId    Int 
+
+  payment     Payment?   @relation("paymentOrder",fields: [paymentId], references: [id])
+  paymentId   Int 
+
+}
+
+
+model CourseTracking {
+  id          Int       @id @default(autoincrement())
+
+  status      StatusCourse      @default(PROGRESS)
+
+  user        User?     @relation("userCourseTracking",fields: [userId], references: [id])
+  userId      Int
+
+  course      Course?   @relation("courseCourseTracking",fields: [courseId], references: [id])
+  courseId    Int
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt 
+}
+
+model Payment {
+  id          Int       @id @default(autoincrement()) 
+  rek String
+  name String
+  number Int
+  cvv Int
+  expiryDate DateTime 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt 
+
+  order       Order[]   @relation("paymentOrder")
+}
