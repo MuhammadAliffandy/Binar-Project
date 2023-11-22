@@ -11,13 +11,12 @@ const corsOptions = {
     methods: 'GET,POST,DELETE,PUT', 
     allowedHeaders: 'Content-Type,Authorization',
 }
+
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: false}));
 app.use('/api-documentation', swaggerUi.serve, swaggerUi.setup(swaggerJson))
 app.use('/',routes);
-
-
 
 app.get('/', async(req, res) => {
     res.status(200).json({ message: "Ping successfully" });

@@ -41,31 +41,31 @@ enum StatusModule {
   DONE
 }
 
-model User{
-  id                 String    @id @default(uuid())
-  name               String
-  image              String
-  handphone          String 
-  country            String?
-  city               String?
-  email              String    @unique
-  password           String 
-  role               Role      @default(USER)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt 
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  image     String?
+  handphone String
+  country   String?
+  city      String?
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  createCourse       Course[]  @relation("userCreateCourse")
-  updateCourse       Course[]  @relation("userUpdateCourse")
-  deleteCourse       Course[]  @relation("userDeleteCourse")
+  createCourse Course[] @relation("userCreateCourse")
+  updateCourse Course[] @relation("userUpdateCourse")
+  deleteCourse Course[] @relation("userDeleteCourse")
 
-  order              Order[]   @relation("userOrder")
-  courseTracking     CourseTracking[]  @relation("userCourseTracking")
-  moduleTracking     ModuleTracking[]  @relation("userModuleTracking")
-  notification       Notification[]    @relation("userNotification")
+  order          Order[]          @relation("userOrder")
+  courseTracking CourseTracking[] @relation("userCourseTracking")
+  moduleTracking ModuleTracking[] @relation("userModuleTracking")
+  notification   Notification[]   @relation("userNotification")
 }
 
 model Course {
-  id          String       @id @default(uuid()) 
+  id          String    @id @default(uuid())
   title       String
   image       String
   subtitle    String
@@ -75,118 +75,114 @@ model Course {
   authorBy    String
   rating      Int
   price       Int
-  level       Level @default(BEGINNER)
+  level       Level     @default(BEGINNER)
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt 
-  deletedAt   DateTime?  
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 
-  creator     User?     @relation("userCreateCourse",fields: [createdBy], references: [id])
-  createdBy   String
-  updater     User?     @relation("userUpdateCourse",fields: [updatedBy], references: [id])
-  updatedBy   String
-  deleter     User?     @relation("userDeleteCourse",fields: [deletedBy], references: [id])
-  deletedBy   String
+  creator   User?  @relation("userCreateCourse", fields: [createdBy], references: [id])
+  createdBy String
+  updater   User?  @relation("userUpdateCourse", fields: [updatedBy], references: [id])
+  updatedBy String
+  deleter   User?  @relation("userDeleteCourse", fields: [deletedBy], references: [id])
+  deletedBy String
 
-  module      Module[]  @relation("moduleList")
+  module Module[] @relation("moduleList")
 
-  category    Category?     @relation("courseCategory",fields: [categoryId], references: [id])
-  categoryId  String
+  category   Category? @relation("courseCategory", fields: [categoryId], references: [id])
+  categoryId String
 
-  order       Order[]   @relation("courseOrder")
-  courseTracking     CourseTracking[]   @relation("courseCourseTracking")
+  order          Order[]          @relation("courseOrder")
+  courseTracking CourseTracking[] @relation("courseCourseTracking")
 }
 
 model Module {
-  id          String       @id @default(uuid()) 
-  title       String
-  video       String
-  time        Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
-  course      Course?   @relation("moduleList",fields: [courseId], references: [id])
-  courseId    String
+  id        String   @id @default(uuid())
+  title     String
+  video     String
+  time      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  moduleTracking     ModuleTracking[]   @relation("moduleTracking")
+  course   Course? @relation("moduleList", fields: [courseId], references: [id])
+  courseId String
+
+  moduleTracking ModuleTracking[] @relation("moduleTracking")
 }
 
-model Category{
-  id          String       @id @default(uuid()) 
-  title       String
-  course      Course[]  @relation("courseCategory")
+model Category {
+  id     String   @id @default(uuid())
+  title  String
+  course Course[] @relation("courseCategory")
 }
 
 model Order {
-  id          String       @id @default(uuid())
-  status      StatusOrder     @default(NOTPAID)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String      @id @default(uuid())
+  status    StatusOrder @default(NOTPAID)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 
-  user        User?     @relation("userOrder",fields: [userId], references: [id])
-  userId      String
+  user   User?  @relation("userOrder", fields: [userId], references: [id])
+  userId String
 
-  course      Course?   @relation("courseOrder",fields: [courseId], references: [id])
-  courseId    String 
+  course   Course? @relation("courseOrder", fields: [courseId], references: [id])
+  courseId String
 
-  payment     Payment?   @relation("paymentOrder",fields: [paymentId], references: [id])
-  paymentId   String 
-
+  payment   Payment? @relation("paymentOrder", fields: [paymentId], references: [id])
+  paymentId String
 }
 
-
 model CourseTracking {
-  id          String       @id @default(uuid())
+  id String @id @default(uuid())
 
-  status      StatusCourse      @default(PROGRESS)
+  status StatusCourse @default(PROGRESS)
 
-  user        User?     @relation("userCourseTracking",fields: [userId], references: [id])
-  userId      String
+  user   User?  @relation("userCourseTracking", fields: [userId], references: [id])
+  userId String
 
-  course      Course?   @relation("courseCourseTracking",fields: [courseId], references: [id])
-  courseId    String
+  course   Course? @relation("courseCourseTracking", fields: [courseId], references: [id])
+  courseId String
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ModuleTracking {
-  id          String          @id @default(uuid())
+  id String @id @default(uuid())
 
-  status      StatusModule      @default(PROGRESS)
+  status StatusModule @default(PROGRESS)
 
-  user        User?     @relation("userModuleTracking",fields: [userId], references: [id])
-  userId      String
+  user   User?  @relation("userModuleTracking", fields: [userId], references: [id])
+  userId String
 
-  module      Module?   @relation("moduleTracking",fields: [moduleId], references: [id])
-  moduleId    String
+  module   Module? @relation("moduleTracking", fields: [moduleId], references: [id])
+  moduleId String
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-
 model Payment {
-  id          String       @id @default(uuid()) 
-  rek         String
-  name        String
-  number      Int
-  cvv         Int
-  expiryDate  DateTime 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt 
+  id         String   @id @default(uuid())
+  rek        String
+  name       String
+  number     Int
+  cvv        Int
+  expiryDate DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  order       Order[]   @relation("paymentOrder")
+  order Order[] @relation("paymentOrder")
 }
 
 model Notification {
-  id          String       @id @default(uuid()) 
-  title String
-  subtitle String
+  id          String   @id @default(uuid())
+  title       String
+  subtitle    String
   description String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
-  user        User?     @relation("userNotification",fields: [userId], references: [id])
-  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
+  user   User?  @relation("userNotification", fields: [userId], references: [id])
+  userId String
 }
