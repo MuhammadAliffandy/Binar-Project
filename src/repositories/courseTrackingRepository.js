@@ -2,7 +2,7 @@ const prisma = require('../../lib/prisma')
 const { v4: uuidv4 } = require('uuid');
 
 const readModules = (payload) => {
-    return prisma.Module.findUnique({
+    return prisma.CourseTracking.findUnique({
         where : {
             id : ''
         }
@@ -10,27 +10,24 @@ const readModules = (payload) => {
 }
 
 const readModulesById = () => {
-    return prisma.Module.findMany();
+    return prisma.CourseTracking.findMany();
 }
 
 const createModules = (payload , userId) => {
-    return prisma.Module.create({
+    return prisma.CourseTracking.create({
         data  : {
             // property
             id : uuidv4(),
-            title : "",
-            video: '',
-            time: '',
-            createdAt: '',
-            updatedAt: '',
+            status: '',
             // relation data
+            userId: '',
             courseId: ''
         }
     }) 
 }
 
 const updatedModules = (payload , userId) => {
-    return prisma.Module.update({
+    return prisma.CourseTracking.update({
         data  : {
             // property
             ...payload,
