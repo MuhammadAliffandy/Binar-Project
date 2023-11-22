@@ -1,13 +1,22 @@
 const prisma = require('../../lib/prisma')
 
-const create = async (payload) => {
-  await prisma.user.create(
-      {
+const authRepository = {
+  create: async (payload) => {
+    await prisma.user.create({
+      data: {
         ...payload
       }
-  )
+    })
+  },
+  findOneWithEmail: async (email) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        email
+      }
+    })
+
+    return user;
+  }
 }
 
-module.exports = {
-  create
-}
+module.exports = authRepository

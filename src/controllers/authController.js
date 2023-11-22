@@ -10,9 +10,9 @@ const registerHandler = async (req, res) => {
   try {
     await createNewUser(payload)
 
-    return res.status(201).json(new CustomResponse("OK", "Register Successfully", payload))
+    return res.status(201).json(new CustomResponse("OK", "Register Successfully"))
   } catch (err) {
-    errorHandler(err)
+    errorHandler(res, err)
   }
 }
 
