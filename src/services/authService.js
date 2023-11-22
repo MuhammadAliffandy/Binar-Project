@@ -2,7 +2,7 @@ const CustomError = require("../../lib/customError");
 const bcrypt = require('bcrypt')
 const authRepository = require("../repositories/authRepository");
 
-const createNewUser = async (payload) => {
+const register = async (payload) => {
   const { email, password } = payload
 
   const foundUserWithSameEmail = await authRepository.findOneWithEmail(email)
@@ -16,6 +16,11 @@ const createNewUser = async (payload) => {
   await authRepository.create({...payload, password: hashedPassword})
 }
 
+const login = async (payload) => {
+  const { emailOrPhoneNumber, password } = payload
+}
+
 module.exports = {
-  createNewUser
+  register,
+  login
 }
