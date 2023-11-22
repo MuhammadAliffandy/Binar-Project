@@ -1,7 +1,7 @@
 const prisma = require('../../lib/prisma')
 const { v4: uuidv4 } = require('uuid');
 
-const readModules = (payload) => {
+const readModulesById = (payload) => {
     return prisma.Module.findUnique({
         where : {
             id : ''
@@ -9,7 +9,7 @@ const readModules = (payload) => {
     });
 }
 
-const readModulesById = () => {
+const readModules = () => {
     return prisma.Module.findMany();
 }
 
@@ -38,6 +38,13 @@ const updatedModules = (payload , userId) => {
 
         }
     }) 
+}
+
+module.exports = {
+    readModules,
+    readModulesById,
+    createModules,
+    updatedModules,
 }
 
 
