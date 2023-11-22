@@ -16,6 +16,31 @@ const authRepository = {
     })
 
     return user;
+  },
+  findOneWithPhoneNumber: async (phoneNumber) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        phoneNumber
+      }
+    })
+
+    return user;
+  },
+  findOneWithEmailOrPhoneNumber: async (emailOrPhoneNumber) => {
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            email: emailOrPhoneNumber
+          },
+          {
+            phoneNumber: emailOrPhoneNumber
+          }
+        ]
+      }
+    })
+
+    return user;
   }
 }
 
