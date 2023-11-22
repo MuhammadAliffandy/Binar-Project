@@ -2,11 +2,20 @@ const prisma = require('../../lib/prisma')
 const { v4: uuidv4 } = require('uuid');
 
 const readCourses = () => {
-    return prisma.Courses.findMany();
+    return prisma.Course.findMany();
+}
+
+const readCoursesById = (payload) => {
+
+    return prisma.Course.findUnique({
+        where : {
+            id : ''
+        }
+    });
 }
 
 const createCourses = (payload , userId) => {
-    return prisma.Courses.create({
+    return prisma.Course.create({
         data  : {
             // property
             id : uuidv4(),
@@ -33,7 +42,7 @@ const createCourses = (payload , userId) => {
 }
 
 const updatedCourses = (payload , userId) => {
-    return prisma.Courses.update({
+    return prisma.Course.update({
         data  : {
             // property
             ...payload,
@@ -43,4 +52,26 @@ const updatedCourses = (payload , userId) => {
         }
     }) 
 }
+
+const deletedCourses = (payload , userId) => {
+    return prisma.Course.update({
+        data  : {
+            // property
+            ...payload,
+            deletedAt: '',
+            // relation data
+            deletedBy: '',
+        }
+    }) 
+}
+
+module.exports = {
+    readCourses,
+    readCoursesById,
+    createCourses,
+    updatedCourses,
+    deletedCourses,
+    
+}
+
 
