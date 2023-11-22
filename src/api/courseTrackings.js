@@ -5,8 +5,8 @@ const CourseTrackingController = require('../controllers/courseTrackingControlle
 
 router
 .get('/' , CourseTrackingController.readCourseTracking)
-.post('/search')
-.post('/')
-.put('/')
+.post('/search' , CourseTrackingController.readCourseTrackingById)
+.post('/' , CourseTrackingController.createCourseTracking)
+.put('/', CourseTrackingController.updatedCourseTracking)
 
 module.exports = router;
