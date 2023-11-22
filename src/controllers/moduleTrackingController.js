@@ -1,6 +1,6 @@
 const ModuleTrackingService = require('../services/moduleTrackingService')
 
-const readModuleTrackingById = async () => {
+const readModuleTrackingById = async (req,res) => {
     try {
         const payload = req.body;
         const data = await ModuleTrackingService.readModuleTrackingById(payload);
@@ -11,7 +11,7 @@ const readModuleTrackingById = async () => {
     }
 }
 
-const readModuleTracking = async () => {
+const readModuleTracking = async (req,res) => {
     try {
         const data = await ModuleTrackingService.readModuleTracking();
         return res.status(200).json(new CustomResponse("OK", "View all module tracking data successfully", data))
@@ -21,7 +21,7 @@ const readModuleTracking = async () => {
     }
 }
 
-const createModuleTracking = async () => {
+const createModuleTracking = async (req,res) => {
     try {
         const payload = req.body;
         const data = await ModuleTrackingService.createModuleTracking(payload)
@@ -32,7 +32,7 @@ const createModuleTracking = async () => {
     }
 }
 
-const updatedModuleTracking = async () => {
+const updatedModuleTracking = async (req,res) => {
     try {
         const payload = req.body;
         const data = await ModuleTrackingService.updatedModuleTracking(payload)

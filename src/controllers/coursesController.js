@@ -1,6 +1,6 @@
 const CoursesService = require('../services/coursesService');
 
-const readCourses = async () => {
+const readCourses = async (req,res) => {
     try {
         const data = await CoursesService.readCourses();
         return res.status(200).json(new CustomResponse("OK", "View all course data successfully", data))
@@ -10,18 +10,29 @@ const readCourses = async () => {
     }
 }
 
-const readCoursesById = async () => {
+const readCoursesById = async (req,res) => {
     try { 
         const payload = req.body;
         const data = await CoursesService.readCoursesById(payload);
-        return res.status(200).json(new CustomResponse("OK", "View all course data successfully", data))
+        return res.status(200).json(new CustomResponse("OK", "View course data successfully", data))
 
     } catch (error) {
         errorHandler(res, err)
     }
 }
 
-const createCourses = async () => {
+const readCoursesByCategory = async (req,res) => {
+    try { 
+        const payload = req.body;
+        const data = await CoursesService.readCoursesByCategory(payload);
+        return res.status(200).json(new CustomResponse("OK", "View course data successfully", data))
+
+    } catch (error) {
+        errorHandler(res, err)
+    }
+}
+
+const createCourses = async (req,res) => {
     try {
         const user = req.user
         const payload = req.body;
@@ -33,8 +44,7 @@ const createCourses = async () => {
     }
 }
 
-
-const updatedCourses = async () => {
+const updatedCourses = async (req,res) => {
     try {
         const user = req.user
         const payload = req.body;
@@ -46,7 +56,7 @@ const updatedCourses = async () => {
     }
 }
 
-const deletedCourses = async() => {
+const deletedCourses = async(req,res) => {
     try {
         const user = req.user
         const payload = req.body;
@@ -61,6 +71,7 @@ const deletedCourses = async() => {
 module.exports = {
     readCourses,
     readCoursesById,
+    readCoursesByCategory,
     createCourses,
     updatedCourses,
     deletedCourses,

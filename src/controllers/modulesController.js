@@ -1,6 +1,6 @@
 const ModulesService = require('../services/modulesService')
 
-const readModulesById = async () => {
+const readModulesById = async (req,res) => {
     try {
         const payload = req.body;
         const data = await ModulesService.readModulesById(payload);
@@ -11,7 +11,7 @@ const readModulesById = async () => {
     }
 }
 
-const readModules = async () => {
+const readModules = async (req,res) => {
     try {
         const data = await ModulesService.readModules();
         return res.status(200).json(new CustomResponse("OK", "View all module data successfully", data))
@@ -21,7 +21,7 @@ const readModules = async () => {
     }
 }
 
-const createModules = async () => {
+const createModules = async (req,res) => {
     try {
         const payload = req.body;
         const data = await ModulesService.createModules(payload);
@@ -32,7 +32,7 @@ const createModules = async () => {
     }
 }
 
-const updatedModules = async () => {
+const updatedModules = async (req,res) => {
     try {
         const payload = req.body;
         const data = await ModulesService.updatedModules(payload);

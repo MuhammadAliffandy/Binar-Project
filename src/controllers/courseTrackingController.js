@@ -1,6 +1,6 @@
 const CourseTrackingService = require('../services/courseTrackingService');
 
-const readCourseTracking = async() => {
+const readCourseTracking = async(req,res) => {
     try {
         const data = await CourseTrackingService.readCourseTracking();
         return res.status(200).json(new CustomResponse("OK", "View all course tracking data successfully", data))
@@ -10,7 +10,7 @@ const readCourseTracking = async() => {
     }
 }
 
-const readCourseTrackingById = async () => {
+const readCourseTrackingById = async (req,res) => {
     try { 
         const payload = req.body;
         const data = await CourseTrackingService.readCourseTrackingById(payload)
@@ -21,7 +21,7 @@ const readCourseTrackingById = async () => {
     }
 }
 
-const createCourseTracking = async () => {
+const createCourseTracking = async (req,res) => {
     try {
         const payload = req.body;
         const data = await CourseTrackingService.createCourseTracking(payload) 
@@ -32,7 +32,7 @@ const createCourseTracking = async () => {
     }
 }
 
-const updatedCourseTracking = async () => {
+const updatedCourseTracking = async (req,res) => {
     try {
         const payload = req.body;
         const data = await CourseTrackingService.updatedCourseTracking(payload)

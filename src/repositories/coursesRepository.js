@@ -6,13 +6,20 @@ const readCourses = () => {
 }
 
 const readCoursesById = (payload) => {
-
     const { id } = payload ;
-
     return prisma.Course.findUnique({
         where : {
             id : id
         }
+    });
+}
+
+const readCoursesByCategory = (payload) => {
+    const { categoryId } = payload ;
+    return prisma.Course.findMany({
+        where : {
+            categoryId : categoryId
+        },
     });
 }
 
@@ -98,6 +105,7 @@ const deletedCourses = (payload , userId) => {
 module.exports = {
     readCourses,
     readCoursesById,
+    readCoursesByCategory,
     createCourses,
     updatedCourses,
     deletedCourses,

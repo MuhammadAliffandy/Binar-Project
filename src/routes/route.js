@@ -9,6 +9,8 @@ const categories = require('../api/categories')
 const orders = require('../api/orders')
 const payments = require('../api/payments')
 const courseTrackings = require('../api/courseTrackings')
+const moduleTrackings = require('../api/moduleTrackings')
+const notification = require('../api/notification')
 
 
 router.use('/auth', auth);
@@ -19,6 +21,8 @@ router.use('/categories', categories);
 router.use('/orders', orders);
 router.use('/payments', payments);
 router.use('/courseTrackings', courseTrackings);
+router.use('/moduleTrackings', moduleTrackings);
+router.use('/notification', notification);
 
 
 module.exports = router;

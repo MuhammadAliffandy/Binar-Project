@@ -7,6 +7,9 @@ const readCourses = () => {
 const readCoursesById = (payload) => {
     return CoursesRepository.readCoursesById(payload);
 }
+const readCoursesByCategory = (payload) => {
+    return CoursesRepository.readCoursesByCategory(payload);
+}
 
 const createCourses = (payload , userId) => {
     return CoursesRepository.createCourses(payload,userId);
@@ -23,6 +26,7 @@ const deletedCourses = (payload , userId) => {
 module.exports = {
     readCourses,
     readCoursesById,
+    readCoursesByCategory,
     createCourses,
     updatedCourses,
     deletedCourses,
