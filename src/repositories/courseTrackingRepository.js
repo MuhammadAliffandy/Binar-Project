@@ -6,33 +6,42 @@ const readCourseTracking = () => {
 }
 
 const readCourseTrackingById = (payload) => {
+
+    const { id  } = payload;
+
     return prisma.CourseTracking.findUnique({
         where : {
-            id : ''
+            id : id
         }
     });
 }
 
-const createCourseTracking = (payload , userId) => {
+const createCourseTracking = (payload) => {
+
+    const { status , userId , courseId } = payload;
+
     return prisma.CourseTracking.create({
         data  : {
             // property
             id : uuidv4(),
-            status: '',
+            status:status,
             // relation data
-            userId: '',
-            courseId: ''
+            userId: userId,
+            courseId: courseId
         }
     }) 
 }
 
-const updatedCourseTracking = (payload , userId) => {
-    return prisma.CourseTracking.update({
-        data  : {
-            // property
-            ...payload,
-            updatedAt: '',
+const updatedCourseTracking = (payload ) => {
 
+    const { id , ...data  } = payload;
+
+    return prisma.CourseTracking.update({
+        where : {
+            id : id 
+        },
+        data  : {
+            ...data,
         }
     }) 
 }

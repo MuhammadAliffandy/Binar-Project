@@ -7,60 +7,90 @@ const readCourses = () => {
 
 const readCoursesById = (payload) => {
 
+    const { id } = payload ;
+
     return prisma.Course.findUnique({
         where : {
-            id : ''
+            id : id
         }
     });
 }
 
 const createCourses = (payload , userId) => {
+
+    const user = userId.id;
+
+    const {
+        title,
+        image,
+        subtitle,
+        description,
+        classCode,
+        type,
+        authorBy,
+        rating,
+        price,
+        level,
+        categoryId,
+    } = payload 
+    
     return prisma.Course.create({
         data  : {
             // property
             id : uuidv4(),
-            title : "",
-            image : '',
-            subtitle: '',
-            description : '',
-            classCode: '',
-            type : '',
-            authorBy: '',
-            rating: '',
-            price: '',
-            level: '',
-            createdAt: '',
-            updatedAt: '',
-            deletedAt: '',
+            title : title,
+            image : image,
+            subtitle: subtitle,
+            description : description,
+            classCode: classCode,
+            type : type,
+            authorBy: authorBy,
+            rating:rating,
+            price: price,
+            level: level,
+            createdAt: new Date(),
+            updatedAt:new Date(),
+            deletedAt: null,
             // relation data
-            createdBy:'',
-            updatedBy: '',
-            deletedBy: '',
-            categoryId: ''
+            createdBy: user,
+            updatedBy: user,
+            deletedBy: null,
+            categoryId: categoryId,
         }
     }) 
 }
 
 const updatedCourses = (payload , userId) => {
+
+    const { id , ...data } = payload
+    const user = userId.id;
+
     return prisma.Course.update({
+        where : {
+            id : id
+        },
         data  : {
-            // property
-            ...payload,
-            updatedAt: '',
+            ...data,
+            updatedAt: new Date(),
             // relation data
-            updatedBy: ''
+            updatedBy: user
         }
+
     }) 
 }
 
 const deletedCourses = (payload , userId) => {
+
+    const user = userId.id;
+    const {id} = payload;
+
     return prisma.Course.update({
+        where: {
+            id : id  ,
+        },
         data  : {
-            // property
-            ...payload,
-            deletedAt: '',
-            // relation data
-            deletedBy: '',
+            deletedAt: new Date(),
+            deletedBy: user,
         }
     }) 
 }

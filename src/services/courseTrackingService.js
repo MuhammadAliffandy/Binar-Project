@@ -8,12 +8,12 @@ const readCourseTrackingById = (payload) => {
     return courseTrackingRepository.readCourseTrackingById(payload)
 }
 
-const createCourseTracking = (payload , userId) => {
-    return courseTrackingRepository.createCourseTracking(payload,userId) 
+const createCourseTracking = (payload) => {
+    return courseTrackingRepository.createCourseTracking(payload) 
 }
 
-const updatedCourseTracking = (payload , userId) => {
-    return courseTrackingRepository.updatedCourseTracking(payload,userId)
+const updatedCourseTracking = (payload) => {
+    return courseTrackingRepository.updatedCourseTracking(payload)
 }
 
 module.exports = {

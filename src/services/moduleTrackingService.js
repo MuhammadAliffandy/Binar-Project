@@ -1,19 +1,19 @@
 const ModuleTrackingRepository = require('../repositories/moduleTrackingRepository')
 
 const readModuleTrackingById = (payload) => {
-    return ModuleTrackingRepository.readModuleTrackingId(payload);
+    return ModuleTrackingRepository.readModuleTrackingById(payload);
 }
 
 const readModuleTracking = () => {
     return ModuleTrackingRepository.readModuleTracking();
 }
 
-const createModuleTracking = (payload , userId) => {
-    return ModuleTrackingRepository.createModuleTracking(payload,userId)
+const createModuleTracking = (payload) => {
+    return ModuleTrackingRepository.createModuleTracking(payload)
 }
 
-const updatedModuleTracking = (payload , userId) => {
-    return ModuleTrackingRepository.updatedModuleTracking(payload,userId)
+const updatedModuleTracking = (payload) => {
+    return ModuleTrackingRepository.updatedModuleTracking(payload)
 }
 
 

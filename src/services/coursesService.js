@@ -5,7 +5,7 @@ const readCourses = () => {
 }
 
 const readCoursesById = (payload) => {
-    return CoursesRepository.readCoursesById();
+    return CoursesRepository.readCoursesById(payload);
 }
 
 const createCourses = (payload , userId) => {

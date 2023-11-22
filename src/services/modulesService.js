@@ -8,12 +8,12 @@ const readModules = () => {
     return ModulesRepository.readModules()
 }
 
-const createModules = (payload , userId) => {
-    return ModulesRepository.createModules(payload,userId)
+const createModules = (payload) => {
+    return ModulesRepository.createModules(payload)
 }
 
-const updatedModules = (payload , userId) => {
-    return ModulesRepository.updatedModules(payload,userId)
+const updatedModules = (payload) => {
+    return ModulesRepository.updatedModules(payload)
 }
 
 module.exports = {
