@@ -42,19 +42,23 @@ enum StatusModule {
 }
 
 model User{
-  id          String    @id @default(uuid())
-  name        String
-  image       String
-  handphone   String 
-  country     String?
-  city        String?
-  email       String    @unique
-  password    String 
-  role        Role      @default(USER)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt 
-  course      Course[]  @relation("userCourse")
-  order       Order[]   @relation("userOrder")
+  id                 String    @id @default(uuid())
+  name               String
+  image              String
+  handphone          String 
+  country            String?
+  city               String?
+  email              String    @unique
+  password           String 
+  role               Role      @default(USER)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt 
+
+  createCourse       Course[]  @relation("userCreateCourse")
+  updateCourse       Course[]  @relation("userUpdateCourse")
+  deleteCourse       Course[]  @relation("userDeleteCourse")
+
+  order              Order[]   @relation("userOrder")
   courseTracking     CourseTracking[]  @relation("userCourseTracking")
   moduleTracking     ModuleTracking[]  @relation("userModuleTracking")
   notification       Notification[]    @relation("userNotification")
@@ -71,12 +75,17 @@ model Course {
   authorBy    String
   rating      Int
   price       Int
-  level Level @default(BEGINNER)
+  level       Level @default(BEGINNER)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt 
-  
-  user        User?     @relation("userCourse",fields: [userId], references: [id])
-  userId      String
+  deletedAt   DateTime?  
+
+  creator     User?     @relation("userCreateCourse",fields: [createdBy], references: [id])
+  createdBy   String
+  updater     User?     @relation("userUpdateCourse",fields: [updatedBy], references: [id])
+  updatedBy   String
+  deleter     User?     @relation("userDeleteCourse",fields: [deletedBy], references: [id])
+  deletedBy   String
 
   module      Module[]  @relation("moduleList")
 
