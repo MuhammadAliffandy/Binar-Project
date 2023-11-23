@@ -8,7 +8,7 @@ const create = async (payload) => {
   })
 }
 
-const findOneWithEmail = async (email) => {
+const findByEmail = async (email) => {
   const user = await prisma.user.findUnique({
     where: {
       email
@@ -18,7 +18,7 @@ const findOneWithEmail = async (email) => {
   return user;
 }
 
-const findOneWithPhone = async (phone) => {
+const findByPhone = async (phone) => {
   const user = await prisma.user.findUnique({
     where: {
       phone
@@ -28,7 +28,7 @@ const findOneWithPhone = async (phone) => {
   return user;
 }
 
-const findOneWithEmailOrPhone = async (emailOrPhone) => {
+const findByEmailOrPhone = async (emailOrPhone) => {
   const user = await prisma.user.findFirst({
     where: {
       OR: [
@@ -47,7 +47,7 @@ const findOneWithEmailOrPhone = async (emailOrPhone) => {
 
 module.exports = {
   create,
-  findOneWithEmail,
-  findOneWithPhone,
-  findOneWithEmailOrPhone
+  findByEmail,
+  findByPhone,
+  findByEmailOrPhone
 }

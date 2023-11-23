@@ -27,8 +27,8 @@ enum Type {
 }
 
 enum StatusOrder {
-  PAID
-  NOTPAID
+  WAITING
+  APPROVED
 }
 
 enum StatusCourse {
@@ -118,7 +118,7 @@ model Category {
 
 model Order {
   id        String      @id @default(uuid())
-  status    StatusOrder @default(NOTPAID)
+  status    StatusOrder @default(WAITING)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 
@@ -130,6 +130,19 @@ model Order {
 
   payment   Payment? @relation("paymentOrder", fields: [paymentId], references: [id])
   paymentId String
+}
+
+model Payment {
+  id         String   @id @default(uuid())
+  cardNumber String
+  cardName   String
+  cvv        Int
+  expiryDate DateTime
+  amount     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  order Order[] @relation("paymentOrder")
 }
 
 model CourseTracking {
@@ -160,19 +173,6 @@ model ModuleTracking {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model Payment {
-  id         String   @id @default(uuid())
-  rek        String
-  name       String
-  number     Int
-  cvv        Int
-  expiryDate DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  order Order[] @relation("paymentOrder")
 }
 
 model Notification {

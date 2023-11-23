@@ -31,7 +31,9 @@ const loginHandler = async (req, res) => {
 const currentUserHandler = (req, res) => {
   const user = req.user;
 
-  return res.status(200).json(new CustomResponse("OK", null, user))
+  const filteredUser = AuthService.filterUserData(user)
+
+  return res.status(200).json(new CustomResponse("OK", null, filteredUser))
 }
 
 module.exports = {
