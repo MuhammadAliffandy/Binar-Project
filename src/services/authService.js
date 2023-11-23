@@ -1,34 +1,34 @@
 const CustomError = require("../../lib/customError");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const authRepository = require("../repositories/authRepository");
+const AuthRepository = require("../repositories/authRepository");
 
 const register = async (payload) => {
-  const { email, phoneNumber, password } = payload
+  const { email, phone, password } = payload
 
-  const foundUserWithSameEmail = await authRepository.findOneWithEmail(email)
+  const foundUserWithSameEmail = await AuthRepository.findOneWithEmail(email)
 
   if (foundUserWithSameEmail) throw new CustomError(409, "Email Already Used")
 
-  const foundUserWithSamePhoneNumber = await authRepository.findOneWithPhoneNumber(phoneNumber)
+  const foundUserWithSamePhone = await AuthRepository.findOneWithPhone(phone)
 
-  if (foundUserWithSamePhoneNumber) throw new CustomError(409, "Phone Number Already Used")
+  if (foundUserWithSamePhone) throw new CustomError(409, "Phone Already Used")
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  await authRepository.create({ ...payload, password: hashedPassword })
+  await AuthRepository.create({ ...payload, password: hashedPassword })
 }
 
 const login = async (payload) => {
-  const { emailOrPhoneNumber, password } = payload
+  const { emailOrPhone, password } = payload
 
-  const foundUser = await authRepository.findOneWithEmailOrPhoneNumber(emailOrPhoneNumber)
+  const foundUser = await AuthRepository.findOneWithEmailOrPhone(emailOrPhone)
 
-  if (!foundUser) throw new CustomError(400, "Email or Phone Number not Registered")
+  if (!foundUser) throw new CustomError(401, "Email or Phone not Registered")
 
   const isPasswordMatch = await bcrypt.compare(password, foundUser.password)
 
-  if (!isPasswordMatch) throw new CustomError(400, "Wrong Password")
+  if (!isPasswordMatch) throw new CustomError(401, "Wrong Password")
 
   const accessToken = jwt.sign(
       {

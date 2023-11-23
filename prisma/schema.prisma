@@ -42,17 +42,17 @@ enum StatusModule {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  name        String
-  image       String?
-  phoneNumber String   @unique
-  country     String?
-  city        String?
-  email       String   @unique
-  password    String
-  role        Role     @default(USER)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(uuid())
+  name      String
+  image     String?
+  phone     String   @unique
+  country   String?
+  city      String?
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   createCourse Course[] @relation("userCreateCourse")
   updateCourse Course[] @relation("userUpdateCourse")
@@ -80,11 +80,11 @@ model Course {
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
 
-  creator   User?  @relation("userCreateCourse", fields: [createdBy], references: [id])
+  creator   User?   @relation("userCreateCourse", fields: [createdBy], references: [id])
   createdBy String
-  updater   User?  @relation("userUpdateCourse", fields: [updatedBy], references: [id])
+  updater   User?   @relation("userUpdateCourse", fields: [updatedBy], references: [id])
   updatedBy String
-  deleter   User?  @relation("userDeleteCourse", fields: [deletedBy], references: [id])
+  deleter   User?   @relation("userDeleteCourse", fields: [deletedBy], references: [id])
   deletedBy String?
 
   module Module[] @relation("moduleList")
