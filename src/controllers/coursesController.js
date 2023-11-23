@@ -71,7 +71,6 @@ const deletedCourses = async(req,res) => {
     }
 }
 
-
 const createValidation = async(req , res , next) => {
 
     const body = req.body
@@ -135,11 +134,12 @@ const createValidation = async(req , res , next) => {
 }
 
 
-const updateCarsValidation = async(req , res , next) => {
+const updateValidation = async(req , res , next) => {
 
     let body = req.body;
 
     const requireData = [
+        'id',
         'title',
         'image',
         'subtitle',
@@ -153,7 +153,7 @@ const updateCarsValidation = async(req , res , next) => {
         'categoryId',
     ];
 
-    const isExisting = await readCoursesById(id);
+    const isExisting = await readCoursesById(body.id);
 
     if(isExisting === null){
         return res.status(400).json({
@@ -188,6 +188,7 @@ module.exports = {
     readCoursesByCategory,
     createCourses,
     createValidation,
+    updateValidation,
     updatedCourses,
     deletedCourses,
 }
