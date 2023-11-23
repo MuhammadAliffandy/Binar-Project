@@ -27,10 +27,12 @@ const createModules = (payload) => {
             title : title,
             video: video,
             time: time,
-            createdAt: new Date(),
-            updatedAt: new Date(),
             // relation data
-            courseId: courseId
+            course : {
+                connect : {
+                    id : courseId
+                }
+            }
         }
     }) 
 }

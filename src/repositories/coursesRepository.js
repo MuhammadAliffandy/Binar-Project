@@ -55,14 +55,22 @@ const createCourses = (payload , userId) => {
             rating:rating,
             price: price,
             level: level,
-            createdAt: new Date(),
-            updatedAt:new Date(),
-            deletedAt: null,
-            // relation data
-            createdBy: user,
-            updatedBy: user,
-            deletedBy: null,
-            categoryId: categoryId,
+            creator : {
+                connect : {
+                    id : user
+                }
+            },
+            updater : {
+                connect : {
+                    id : user
+                }
+            },
+            category : {
+                connect : {
+                    id : categoryId
+                }
+            },
+
         }
     }) 
 }
@@ -80,7 +88,11 @@ const updatedCourses = (payload , userId) => {
             ...data,
             updatedAt: new Date(),
             // relation data
-            updatedBy: user
+            updater : {
+                connect : {
+                    id : user
+                }
+            },
         }
 
     }) 
@@ -97,7 +109,11 @@ const deletedCourses = (payload , userId) => {
         },
         data  : {
             deletedAt: new Date(),
-            deletedBy: user,
+            deleter : {
+                connect : {
+                    id : user
+                }
+            },
         }
     }) 
 }

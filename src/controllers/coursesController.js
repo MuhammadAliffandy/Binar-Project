@@ -37,7 +37,7 @@ const readCoursesByCategory = async (req,res) => {
 
 const createCourses = async (req,res) => {
     try {
-        const user = req.user
+        const user = req.user;
         const payload = req.body;
         const data = await CoursesService.createCourses(payload,user);
         return res.status(201).json(new CustomResponse("OK", "create course data has been successfully", data))

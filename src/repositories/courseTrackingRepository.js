@@ -26,8 +26,17 @@ const createCourseTracking = (payload) => {
             id : uuidv4(),
             status:status,
             // relation data
-            userId: userId,
-            courseId: courseId
+            user : {
+                connect : {
+                    id : userId
+                }
+            },
+            course : {
+                connect : {
+                    id : courseId
+                }
+            }
+            
         }
     }) 
 }

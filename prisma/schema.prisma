@@ -85,7 +85,7 @@ model Course {
   updater   User?  @relation("userUpdateCourse", fields: [updatedBy], references: [id])
   updatedBy String
   deleter   User?  @relation("userDeleteCourse", fields: [deletedBy], references: [id])
-  deletedBy String
+  deletedBy String?
 
   module Module[] @relation("moduleList")
 
