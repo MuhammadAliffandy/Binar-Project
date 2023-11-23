@@ -5,7 +5,7 @@ const ModulesController = require('../controllers/modulesController')
 router
 .get('/', ModulesController.readModules)
 .post('/search' , ModulesController.readModulesById)
-.post('/' , ModulesController.createModules)
-.put('/' , ModulesController.updatedModules)
+.post('/' , ModulesController.createValidation, ModulesController.createModules)
+.put('/' , ModulesController.updateValidation , ModulesController.updatedModules)
 
 module.exports = router;

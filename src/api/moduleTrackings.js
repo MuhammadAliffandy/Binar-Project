@@ -5,7 +5,7 @@ const ModuleTrackingController = require('../controllers/moduleTrackingControlle
 router
 .get('/' , ModuleTrackingController.readModuleTracking)
 .post('/search', ModuleTrackingController.readModuleTrackingById)
-.post('/', ModuleTrackingController.createModuleTracking)
-.put('/', ModuleTrackingController.updatedModuleTracking)
+.post('/', ModuleTrackingController.createValidation, ModuleTrackingController.createModuleTracking)
+.put('/',ModuleTrackingController.updateValidation ,  ModuleTrackingController.updatedModuleTracking)
 
 module.exports = router;

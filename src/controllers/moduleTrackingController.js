@@ -38,7 +38,7 @@ const updatedModuleTracking = async (req,res) => {
     try {
         const payload = req.body;
         const data = await ModuleTrackingService.updatedModuleTracking(payload)
-        return res.status(201).json(new CustomResponse("OK", "create module tracking data has been successfully", data))
+        return res.status(201).json(new CustomResponse("OK", "update module tracking data has been successfully", data))
 
     } catch (err) {
         errorHandler(res, err)

@@ -6,8 +6,8 @@ router
 .get('/',CoursesController.readCourses)
 .post('/search',CoursesController.readCoursesById)
 .post('/filter',CoursesController.readCoursesById)
-.post('/', CoursesController.createCourses )
-.put('/',CoursesController.updatedCourses)
+.post('/', CoursesController.createValidation  , CoursesController.createCourses )
+.put('/', CoursesController.updateValidation , CoursesController.updatedCourses)
 .delete('/' , CoursesController.deletedCourses )
 
 module.exports = router;
