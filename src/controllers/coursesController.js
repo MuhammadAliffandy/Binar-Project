@@ -164,10 +164,27 @@ const updateValidation = async(req , res , next) => {
 
 }
 
+const checkValidation = async(req , res , next) => {
+
+    const body = req.body;
+
+    const isExisting = await CoursesService.readCoursesById(body);
+    
+    if(isExisting === null){
+        return res.status(400).json(new CustomResponse("FAIL", "data its not found"))
+    }
+
+    next();
+
+}
+
+
+
 module.exports = {
     readCourses,
     readCoursesById,
     readCoursesByCategory,
+    checkValidation,
     createCourses,
     createValidation,
     updateValidation,
