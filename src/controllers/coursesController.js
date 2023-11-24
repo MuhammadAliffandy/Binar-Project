@@ -104,28 +104,18 @@ const createValidation = async(req , res , next) => {
                 })
         })
         if(isCheckedData.indexOf(false) > -1){
-            return res.status(400).json({
-                status : "FAIL",
-                message : `Invalid data structure. Please check your input and must to be ${requireData} `
-            });
+            return res.status(400).json(new CustomResponse("FAIL", `Invalid data structure. Please check your input and must to be ${requireData}`))
         }
     }else{
 
         if(Object.keys(body).length < 11 || Object.keys(body).length > 11  ){
-
-            return res.status(400).json({
-                status : "FAIL",
-                message : `Invalid data structure. Please check your input  `
-            });
+            return res.status(400).json(new CustomResponse("FAIL", `Invalid data structure. Please check your input`))
         }
         const isChecked = Object.keys(body).every((key , i)=>{
             return key === requireData[i];
         });
         if(!isChecked){
-            return res.status(400).json({
-                status : "FAIL",
-                message : `Invalid data structure. Please check your input and order data must to be ${requireData} `
-            });
+            return res.status(400).json(new CustomResponse("FAIL", `Invalid data structure. Please check your input and must to be ${requireData}`))
         }
     }
 
@@ -153,28 +143,20 @@ const updateValidation = async(req , res , next) => {
         'categoryId',
     ];
 
-    const isExisting = await readCoursesById(body.id);
-
-    if(isExisting === null){
-        return res.status(400).json({
-            status : "FAIL",
-            message : "data its not found"
-        });
-    }
     
+    const isExisting = await CoursesService.readCoursesById(body);
+    
+    if(isExisting === null){
+        return res.status(400).json(new CustomResponse("FAIL", "data its not found"))
+    }
     if(body != null){
 
-        body = JSON.parse(req.body.data);
-    
         const isChecked = Object.keys(body).map((key)=>{
             return requireData.indexOf(key) ;
         })
     
         if( isChecked.indexOf(-1) > -1 ){
-            return res.status(400).json({
-                status : "FAIL",
-                message : 'Invalid data structure. Please check your input '
-            });
+            return res.status(400).json(new CustomResponse("FAIL", `Invalid data structure. Please check your input`))
         }
     }
 
