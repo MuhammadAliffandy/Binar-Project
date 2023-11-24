@@ -18,7 +18,7 @@ const readModuleTracking = () => {
 
 const createModuleTracking = (payload) => {
 
-    const { status , userId , courseId } = payload;
+    const { status , userId , moduleId } = payload;
 
     return prisma.ModuleTracking.create({
         data  : {
@@ -31,9 +31,9 @@ const createModuleTracking = (payload) => {
                     id : userId
                 }
             },
-            course : {
+            module : {
                 connect : {
-                    id : courseId
+                    id : moduleId
                 }
             }
         }

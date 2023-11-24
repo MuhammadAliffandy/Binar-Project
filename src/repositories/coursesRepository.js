@@ -2,11 +2,16 @@ const prisma = require('../../lib/prisma')
 const { v4: uuidv4 } = require('uuid');
 
 const readCourses = () => {
-    return prisma.Course.findMany();
+    return prisma.Course.findMany({
+        where : {
+            deletedAt : null
+        }
+    });
 }
 
 const readCoursesById = (payload) => {
     const { id } = payload ;
+
     return prisma.Course.findUnique({
         where : {
             id : id
