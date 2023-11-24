@@ -1,25 +1,23 @@
-const ModulesController = require("../../src/controllers/modulesController");
-const ModulesService = require("../../src/services/modulesService")
+const ModuleTrackingsController = require("../../src/controllers/moduleTrackingController");
+const ModuleTrackingsService = require("../../src/services/moduleTrackingService")
 const CustomResponse = require("../../lib/customResponse");
 
-jest.mock('../../src/services/modulesService', () => ({ 
-    readModules : jest.fn(),
-    readModulesById : jest.fn(),
-    createModules: jest.fn(),
-    updatedModules: jest.fn(),
+jest.mock('../../src/services/moduleTrackingService', () => ({ 
+    readModuleTracking : jest.fn(),
+    readModuleTrackingById : jest.fn(),
+    createModuleTracking: jest.fn(),
+    updatedModuleTracking: jest.fn(),
 }));
 
+describe('#moduleTrackingController', () => {
+    describe('#readModuleTracking', () => {
+        it('should return all module tracking data and status code 200 ', async () => {
 
-describe('#modulesController', () => {
-    describe('#readModules', () => {
-        it('should return all modules data and status code 200 ', async () => {
-
-            const modules = [{
+            const moduleTracking = [{
                 id: "1",
-                title: "Dummy Modules",
-                video: "www.video.lol",
-                time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                status : "PROGRESS",
+                userId: "1",
+                moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
             }];
 
             const mockReq = {}
@@ -29,12 +27,12 @@ describe('#modulesController', () => {
                 json: jest.fn().mockReturnThis(),
             };
 
-            ModulesService.readModules.mockReturnValue(modules);
-            await ModulesController.readModules(mockReq,mockRes);
+            ModuleTrackingsService.readModuleTracking.mockReturnValue(moduleTracking);
+            await ModuleTrackingsController.readModuleTracking(mockReq,mockRes);
 
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith(
-                new CustomResponse("OK", "View all module data successfully", modules)
+                new CustomResponse("OK", "View all module tracking data successfully", moduleTracking)
             );
 
         });
@@ -42,14 +40,14 @@ describe('#modulesController', () => {
         it('should return error status 500 on failure ', async () => {
             const mockError = new Error();
     
-            ModulesService.readModules.mockRejectedValue(mockError);
+            ModuleTrackingsService.readModuleTracking.mockRejectedValue(mockError);
 
             const mockRes = {
                 status: jest.fn().mockReturnThis(),
                 json: jest.fn()
             };
 
-            await ModulesController.readModules(null,mockRes);
+            await ModuleTrackingsController.readModuleTracking(null,mockRes);
     
             expect(mockRes.status).toHaveBeenCalledWith(500);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -59,16 +57,16 @@ describe('#modulesController', () => {
         
     });
 
-    describe('#readModulesById', () => {
-        it('should return module data and status code 200 ', async () => {
+    describe('#readModuleTrackingById', () => {
+        it('should return module tracking data and status code 200 ', async () => {
 
-            const modules = {
+            const moduleTracking = {
                 id: "1",
-                title: "Dummy Modules",
-                video: "www.video.lol",
-                time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                status : "PROGRESS",
+                userId: "1",
+                moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
             };
+
 
             const mockReq = {
                 body : {
@@ -81,12 +79,12 @@ describe('#modulesController', () => {
                 json: jest.fn().mockReturnThis(),
             };
 
-            ModulesService.readModulesById.mockReturnValue(modules);
-            await ModulesController.readModulesById(mockReq,mockRes);
+            ModuleTrackingsService.readModuleTrackingById.mockReturnValue(moduleTracking);
+            await ModuleTrackingsController.readModuleTrackingById(mockReq,mockRes);
 
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith(
-                new CustomResponse("OK", "View module data successfully", modules)
+                new CustomResponse("OK", "View module tracking data successfully", moduleTracking)
             );
 
         });
@@ -94,7 +92,7 @@ describe('#modulesController', () => {
         it('should return error status 500 on failure ', async () => {
             const mockError = new Error();
     
-            ModulesService.readModulesById.mockRejectedValue(mockError);
+            ModuleTrackingsService.readModuleTrackingById.mockRejectedValue(mockError);
 
             const mockReq = {
                 body : {
@@ -107,7 +105,7 @@ describe('#modulesController', () => {
                 json: jest.fn()
             };
 
-            await ModulesController.readModulesById(mockReq,mockRes);
+            await ModuleTrackingsController.readModuleTrackingById(mockReq,mockRes);
     
             expect(mockRes.status).toHaveBeenCalledWith(500);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -117,20 +115,20 @@ describe('#modulesController', () => {
         
     });
 
-    describe('#createModules', () => {
-        it('should create module data and status code 201 ', async () => {
+    describe('#createModuleTracking', () => {
+        it('should create module tracking data and status code 201 ', async () => {
 
-            const modules = {
+            const moduleTracking = {
                 id: "1",
-                title: "Dummy Modules",
-                video: "www.video.lol",
-                time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                status : "PROGRESS",
+                userId: "1",
+                moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
             };
+
 
             const mockReq = {
                 body : {
-                    ...modules
+                    ...moduleTracking
                 }
             }
 
@@ -139,12 +137,12 @@ describe('#modulesController', () => {
                 json: jest.fn().mockReturnThis(),
             };
 
-            ModulesService.createModules.mockReturnValue(modules);
-            await ModulesController.createModules(mockReq,mockRes);
+            ModuleTrackingsService.createModuleTracking.mockReturnValue(moduleTracking);
+            await ModuleTrackingsController.createModuleTracking(mockReq,mockRes);
 
             expect(mockRes.status).toHaveBeenCalledWith(201);
             expect(mockRes.json).toHaveBeenCalledWith(
-                new CustomResponse("OK", "create module data has been successfully", modules)
+                new CustomResponse("OK", "create module tracking data has been successfully", moduleTracking)
             );
 
         });
@@ -152,7 +150,7 @@ describe('#modulesController', () => {
         it('should return error status 500 on failure ', async () => {
             const mockError = new Error();
     
-            ModulesService.createModules.mockRejectedValue(mockError);
+            ModuleTrackingsService.createModuleTracking.mockRejectedValue(mockError);
 
             const mockReq = {
                 body : {}
@@ -163,7 +161,7 @@ describe('#modulesController', () => {
                 json: jest.fn()
             };
 
-            await ModulesController.createModules(mockReq,mockRes);
+            await ModuleTrackingsController.createModuleTracking(mockReq,mockRes);
     
             expect(mockRes.status).toHaveBeenCalledWith(500);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -173,21 +171,19 @@ describe('#modulesController', () => {
         
     });
 
-    describe('#updatedModules', () => {
+    describe('#updatedModuleTracking', () => {
         it('should update module tracking data and status code 201 ', async () => {
 
-            const modules = {
+            const moduleTracking = {
                 id: "1",
-                title: "Dummy Modules",
-                video: "www.video.lol",
-                time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                status : "DONE",
+                userId: "1",
+                moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
             };
 
             const mockReq = {
                 body : {
-
-                    title: "Dummy Modules",
+                    status : "DONE",
                 }
             }
 
@@ -196,12 +192,12 @@ describe('#modulesController', () => {
                 json: jest.fn().mockReturnThis(),
             };
 
-            ModulesService.updatedModules.mockReturnValue(modules);
-            await ModulesController.updatedModules(mockReq,mockRes);
+            ModuleTrackingsService.updatedModuleTracking.mockReturnValue(moduleTracking);
+            await ModuleTrackingsController.updatedModuleTracking(mockReq,mockRes);
 
             expect(mockRes.status).toHaveBeenCalledWith(201);
             expect(mockRes.json).toHaveBeenCalledWith(
-                new CustomResponse("OK", "update module data has been successfully", modules)
+                new CustomResponse("OK", "update module tracking data has been successfully", moduleTracking)
             );
 
         });
@@ -209,7 +205,7 @@ describe('#modulesController', () => {
         it('should return error status 500 on failure ', async () => {
             const mockError = new Error();
     
-            ModulesService.updatedModules.mockRejectedValue(mockError);
+            ModuleTrackingsService.updatedModuleTracking.mockRejectedValue(mockError);
 
             const mockReq = {
                 body : {}
@@ -220,7 +216,7 @@ describe('#modulesController', () => {
                 json: jest.fn()
             };
 
-            await ModulesController.updatedModules(mockReq,mockRes);
+            await ModuleTrackingsController.updatedModuleTracking(mockReq,mockRes);
     
             expect(mockRes.status).toHaveBeenCalledWith(500);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -244,7 +240,7 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            await ModulesController.createValidation(mockReq,mockRes,mockNext);
+            await ModuleTrackingsController.createValidation(mockReq,mockRes,mockNext);
 
             expect(mockRes.status).toHaveBeenCalledWith(400);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -257,8 +253,8 @@ describe('#modulesController', () => {
 
             const mockReq = {
                 body : {
-                    title: "Dummy Modules",
-                    video: "www.video.lol",
+                    status : "DONE",
+                    userId: "1",
                 }
             }
 
@@ -269,7 +265,7 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            await ModulesController.createValidation(mockReq,mockRes,mockNext);
+            await ModuleTrackingsController.createValidation(mockReq,mockRes,mockNext);
 
             expect(mockRes.status).toHaveBeenCalledWith(400);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -281,22 +277,20 @@ describe('#modulesController', () => {
         it('should invalid data structure if input is array type and status 400 ', async () => {
 
             const requireData = [
-                "title" , "video" , "time", "courseId" 
-            ]
+                "status" , "userId" , "moduleId" 
+            ];
 
             const mockReq = {
                 body : [
                     {
-                        titleA: "Dummy Modules",
-                        video: "www.video.lol",
-                        time: 45,
-                        courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                        statusA : "PROGRESS",
+                        userId: "1",
+                        moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
                     },
                     {
-                        titleA: "Dummy Modules",
-                        video: "www.video.lol",
-                        time: 45,
-                        courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                        statusA : "PROGRESS",
+                        userId: "1",
+                        moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
                     },
                 ]
             }
@@ -308,7 +302,7 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            await ModulesController.createValidation(mockReq,mockRes,mockNext);
+            await ModuleTrackingsController.createValidation(mockReq,mockRes,mockNext);
 
             expect(mockRes.status).toHaveBeenCalledWith(400);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -319,15 +313,14 @@ describe('#modulesController', () => {
 
         it('should invalid sort data and status 400 ', async () => {
             const requireData = [
-                "title" , "video" , "time", "courseId" 
-            ]
+                "status" , "userId" , "moduleId" 
+            ];
 
             const mockReq = {
                 body : {
-                    title: "Dummy Modules",
-                    courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502",
-                    video: "www.video.lol",
-                    time: 45,
+                    userId: "1",
+                    status : "PROGRESS",
+                    moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
                 }
             }
 
@@ -338,7 +331,7 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            await ModulesController.createValidation(mockReq,mockRes,mockNext);
+            await ModuleTrackingsController.createValidation(mockReq,mockRes,mockNext);
 
             expect(mockRes.status).toHaveBeenCalledWith(400);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -351,10 +344,9 @@ describe('#modulesController', () => {
 
             const mockReq = {
                 body : {
-                    title: "Dummy Modules",
-                    video: "www.video.lol",
-                    time: 45,
-                    courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                    status : "PROGRESS",
+                    userId: "1",
+                    moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
                 }
             }
 
@@ -365,7 +357,7 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            await ModulesController.createValidation(mockReq,mockRes,mockNext);
+            await ModuleTrackingsController.createValidation(mockReq,mockRes,mockNext);
 
             expect(mockNext).toHaveBeenCalled();
         });
@@ -386,9 +378,9 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            ModulesService.readModulesById.mockReturnValue(null)
+            ModuleTrackingsService.readModuleTrackingById.mockReturnValue(null)
 
-            await ModulesController.updateValidation(mockReq,mockRes,mockNext);
+            await ModuleTrackingsController.updateValidation(mockReq,mockRes,mockNext);
 
             expect(mockRes.status).toHaveBeenCalledWith(400);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -399,17 +391,16 @@ describe('#modulesController', () => {
         
         it('should invalid data structure and status code 400', async () => {
 
-            const modules = {
-                titleA: "Dummy Modules",
-                video: "www.video.lol",
-                time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+            const moduleTracking = {
+                statusA : "PROGRESS",
+                userId: "1",
+                moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
             };
             
             const mockReq = {
                 body : {
                     id : "1",
-                    titleA: "Dummy Title",
+                    statusA : "PROGRESS",
                 }
             }
 
@@ -420,8 +411,8 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            ModulesService.readModulesById.mockReturnValue(modules);
-            await ModulesController.updateValidation(mockReq,mockRes,mockNext);
+            ModuleTrackingsService.readModuleTrackingById.mockReturnValue(moduleTracking);
+            await ModuleTrackingsController.updateValidation(mockReq,mockRes,mockNext);
 
             expect(mockRes.status).toHaveBeenCalledWith(400);
             expect(mockRes.json).toHaveBeenCalledWith(
@@ -432,17 +423,16 @@ describe('#modulesController', () => {
         
         it('should return next', async () => {;
 
-            const modules = {
-                title: "Dummy Modules",
-                video: "www.video.lol",
-                time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+            const moduleTracking= {
+                status : "PROGRESS",
+                userId: "1",
+                moduleId: "4917fb25-82cf-40f4-8a33-3ca02ec4796a"
             };
 
             const mockReq = {
                 body : {
                     id : "1",
-                    title: "Dummy Title",
+                    status : "PROGRESS",
                 }
             }
 
@@ -453,8 +443,8 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            ModulesService.readModulesById.mockReturnValue(modules);
-            await ModulesController.updateValidation(mockReq,mockRes,mockNext);
+            ModuleTrackingsService.readModuleTrackingById.mockReturnValue(moduleTracking);
+            await ModuleTrackingsController.updateValidation(mockReq,mockRes,mockNext);
 
             expect(mockNext).toHaveBeenCalled();
         });
@@ -475,9 +465,9 @@ describe('#modulesController', () => {
 
             const mockNext = jest.fn();
 
-            ModulesService.readModulesById.mockReturnValue(null)
+            ModuleTrackingsService.readModuleTrackingById.mockReturnValue(null)
 
-            await ModulesController.checkValidation(mockReq,mockRes,mockNext);
+            await ModuleTrackingsController.checkValidation(mockReq,mockRes,mockNext);
 
             expect(mockRes.status).toHaveBeenCalledWith(400);
             expect(mockRes.json).toHaveBeenCalledWith(

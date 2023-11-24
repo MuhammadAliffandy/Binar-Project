@@ -564,9 +564,140 @@ describe('#coursesController', () => {
 
             expect(mockNext).toHaveBeenCalled();
         });
-
-        
-
     });
     
+    describe('#updateValidation', () => {
+
+        it('should return data its not found dan status code 400', async () => {
+            
+            const mockReq = {
+                body : null
+            }
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            };
+
+            const mockNext = jest.fn();
+
+            CoursesService.readCoursesById.mockReturnValue(null)
+
+            await CoursesController.updateValidation(mockReq,mockRes,mockNext);
+
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.json).toHaveBeenCalledWith(
+                new CustomResponse("FAIL", "data its not found")
+            );
+            expect(mockNext).not.toHaveBeenCalled();
+        });
+        
+        it('should invalid data structure and status code 400', async () => {
+
+            const course = {
+                id : "1",
+                title: "Dummy Title",
+                image: "dummy_image.jpg",
+                subtitle: "Dummy Subtitle",
+                description: "Dummy Description",
+                classCode: "ABC123",
+                type: "FREE",
+                authorBy: "Dummy Author",
+                rating: 4.5,
+                price: 19.99,
+                level: "INTERMEDIATE",
+                categoryId: "1",
+            };
+            
+            const mockReq = {
+                body : {
+                    id : "1",
+                    titleA: "Dummy Title",
+                }
+            }
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            };
+
+            const mockNext = jest.fn();
+
+            CoursesService.readCoursesById.mockReturnValue(course);
+            await CoursesController.updateValidation(mockReq,mockRes,mockNext);
+
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.json).toHaveBeenCalledWith(
+                new CustomResponse("FAIL", "Invalid data structure. Please check your input")
+            );
+            expect(mockNext).not.toHaveBeenCalled();
+        });
+        
+        it('should return next', async () => {;
+
+            const course = {
+                id : "1",
+                title: "Dummy Title",
+                image: "dummy_image.jpg",
+                subtitle: "Dummy Subtitle",
+                description: "Dummy Description",
+                classCode: "ABC123",
+                type: "FREE",
+                authorBy: "Dummy Author",
+                rating: 4.5,
+                price: 19.99,
+                level: "INTERMEDIATE",
+                categoryId: "1",
+            };
+
+            const mockReq = {
+                body : {
+                    id : "1",
+                    title: "Dummy Title",
+                }
+            }
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            };
+
+            const mockNext = jest.fn();
+
+            CoursesService.readCoursesById.mockReturnValue(course);
+            await CoursesController.updateValidation(mockReq,mockRes,mockNext);
+
+            expect(mockNext).toHaveBeenCalled();
+        });
+    })
+    
+    describe('#checkValidation', () => {
+
+        it('should return data its not found dan status code 400', async () => {
+            
+            const mockReq = {
+                body : null
+            }
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            };
+
+            const mockNext = jest.fn();
+
+            CoursesService.readCoursesById.mockReturnValue(null)
+
+            await CoursesController.checkValidation(mockReq,mockRes,mockNext);
+
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.json).toHaveBeenCalledWith(
+                new CustomResponse("FAIL", "data its not found")
+            );
+            expect(mockNext).not.toHaveBeenCalled();
+        });
+        
+    })
+
+
 });

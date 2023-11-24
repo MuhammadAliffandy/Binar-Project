@@ -146,6 +146,7 @@ const updateValidation = async(req , res , next) => {
     if(isExisting === null){
         return res.status(400).json(new CustomResponse("FAIL", "data its not found"))
     }
+    
     if(body != null){
 
         const isChecked = Object.keys(body).map((key)=>{
