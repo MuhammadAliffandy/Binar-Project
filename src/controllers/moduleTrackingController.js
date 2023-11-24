@@ -57,7 +57,7 @@ const createValidation = async(req , res , next) => {
     }
 
     const requireData = [
-        "status" , "userId" , "courseId" 
+        "status" , "userId" , "moduleId" 
     ];
     
     if(Array.isArray(body)){
@@ -92,7 +92,7 @@ const updateValidation = async(req , res , next) => {
     let body = req.body;
 
     const requireData = [
-        "id","status" , "userId" , "courseId" 
+        "id","status" , "userId" , "moduleId" 
     ];
 
     const isExisting = await ModuleTrackingService.readModuleTrackingById(body);
@@ -103,8 +103,6 @@ const updateValidation = async(req , res , next) => {
     
     if(body != null){
 
-        body = JSON.parse(req.body);
-    
         const isChecked = Object.keys(body).map((key)=>{
             return requireData.indexOf(key) ;
         })
