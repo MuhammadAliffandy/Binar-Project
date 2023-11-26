@@ -73,7 +73,7 @@ model Course {
   classCode   String
   type        Type      @default(FREE)
   authorBy    String
-  rating      Int
+  rating      Float     @default(0.00)
   price       Int
   level       Level     @default(BEGINNER)
   createdAt   DateTime  @default(now())
@@ -113,6 +113,7 @@ model Module {
 model Category {
   id     String   @id @default(uuid())
   title  String
+  image  String
   course Course[] @relation("courseCategory")
 }
 
