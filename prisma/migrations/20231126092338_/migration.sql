@@ -8,7 +8,7 @@ CREATE TYPE "Level" AS ENUM ('BEGINNER', 'INTERMEDIATE', 'ADVANCED');
 CREATE TYPE "Type" AS ENUM ('FREE', 'PREMIUM');
 
 -- CreateEnum
-CREATE TYPE "StatusOrder" AS ENUM ('PAID', 'NOTPAID');
+CREATE TYPE "StatusOrder" AS ENUM ('WAITING', 'APPROVED');
 
 -- CreateEnum
 CREATE TYPE "StatusCourse" AS ENUM ('PROGRESS', 'DONE');
@@ -21,7 +21,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "image" TEXT,
-    "phoneNumber" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
     "country" TEXT,
     "city" TEXT,
     "email" TEXT NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE "Course" (
     "classCode" TEXT NOT NULL,
     "type" "Type" NOT NULL DEFAULT 'FREE',
     "authorBy" TEXT NOT NULL,
-    "rating" INTEGER NOT NULL,
+    "rating" DOUBLE PRECISION NOT NULL DEFAULT 0.00,
     "price" INTEGER NOT NULL,
     "level" "Level" NOT NULL DEFAULT 'BEGINNER',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -51,7 +51,7 @@ CREATE TABLE "Course" (
     "deletedAt" TIMESTAMP(3),
     "createdBy" TEXT NOT NULL,
     "updatedBy" TEXT NOT NULL,
-    "deletedBy" TEXT NOT NULL,
+    "deletedBy" TEXT,
     "categoryId" TEXT NOT NULL,
 
     CONSTRAINT "Course_pkey" PRIMARY KEY ("id")
@@ -74,6 +74,7 @@ CREATE TABLE "Module" (
 CREATE TABLE "Category" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
@@ -81,7 +82,7 @@ CREATE TABLE "Category" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL,
-    "status" "StatusOrder" NOT NULL DEFAULT 'NOTPAID',
+    "status" "StatusOrder" NOT NULL DEFAULT 'WAITING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
@@ -89,6 +90,20 @@ CREATE TABLE "Order" (
     "paymentId" TEXT NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Payment" (
+    "id" TEXT NOT NULL,
+    "cardNumber" TEXT NOT NULL,
+    "cardName" TEXT NOT NULL,
+    "cvv" INTEGER NOT NULL,
+    "expiryDate" TIMESTAMP(3) NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -116,20 +131,6 @@ CREATE TABLE "ModuleTracking" (
 );
 
 -- CreateTable
-CREATE TABLE "Payment" (
-    "id" TEXT NOT NULL,
-    "rek" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "number" INTEGER NOT NULL,
-    "cvv" INTEGER NOT NULL,
-    "expiryDate" TIMESTAMP(3) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Notification" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -143,7 +144,7 @@ CREATE TABLE "Notification" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_phoneNumber_key" ON "User"("phoneNumber");
+CREATE UNIQUE INDEX "User_phone_key" ON "User"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
@@ -155,7 +156,7 @@ ALTER TABLE "Course" ADD CONSTRAINT "Course_createdBy_fkey" FOREIGN KEY ("create
 ALTER TABLE "Course" ADD CONSTRAINT "Course_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Course" ADD CONSTRAINT "Course_deletedBy_fkey" FOREIGN KEY ("deletedBy") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Course" ADD CONSTRAINT "Course_deletedBy_fkey" FOREIGN KEY ("deletedBy") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Course" ADD CONSTRAINT "Course_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

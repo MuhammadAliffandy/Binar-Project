@@ -76,10 +76,7 @@ const createValidation = async(req , res , next) => {
     const body = req.body
 
     if( body == null ){
-        return res.status(400).json({
-            status : "FAIL",
-            message : `req body is Undefined , Please check your input ! `
-        });
+        return res.status(400).json(new CustomResponse("FAIL", `req body is Undefined , Please check your input ! `));
     }
 
     const requireData = [
@@ -149,6 +146,7 @@ const updateValidation = async(req , res , next) => {
     if(isExisting === null){
         return res.status(400).json(new CustomResponse("FAIL", "data its not found"))
     }
+    
     if(body != null){
 
         const isChecked = Object.keys(body).map((key)=>{

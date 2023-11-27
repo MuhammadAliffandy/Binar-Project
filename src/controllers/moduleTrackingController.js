@@ -6,7 +6,7 @@ const readModuleTrackingById = async (req,res) => {
     try {
         const payload = req.body;
         const data = await ModuleTrackingService.readModuleTrackingById(payload);
-        return res.status(200).json(new CustomResponse("OK", "View all module tracking data successfully", data))
+        return res.status(200).json(new CustomResponse("OK", "View module tracking data successfully", data))
 
     } catch (err) {
         errorHandler(res, err)
@@ -50,10 +50,7 @@ const createValidation = async(req , res , next) => {
     const body = req.body
 
     if( body == null ){
-        return res.status(400).json({
-            status : "FAIL",
-            message : `req body is Undefined , Please check your input ! `
-        });
+        return res.status(400).json(new CustomResponse("FAIL", "req body is Undefined , Please check your input ! "));
     }
 
     const requireData = [
