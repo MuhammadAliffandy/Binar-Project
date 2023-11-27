@@ -37,10 +37,10 @@ const getAllOrderHandler = async (req, res) => {
 }
 
 const getAllUserOrderHandler = async (req, res) => {
-  const { userId } = req.body
+  const { id } = req.user
 
   try {
-    const orders = await OrderService.getAllUserOrder(userId)
+    const orders = await OrderService.getAllUserOrder(id)
 
     return res.status(200).json(new CustomResponse("OK", null, orders))
   } catch (err) {
