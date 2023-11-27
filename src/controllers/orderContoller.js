@@ -7,6 +7,8 @@ const createOrderHandler = async (req, res) => {
 
   try {
     await OrderService.createOrder(payload)
+
+    res.status(201).json(new CustomResponse("OK", "Order Created Successfully"))
   } catch (err) {
     errorHandler(res, err)
   }
@@ -16,9 +18,9 @@ const approveOrderHandler = async (req, res) => {
   const { orderId } = req.body
 
   try {
-    const approvedOrder = await OrderService.approveOrder(orderId)
+    await OrderService.approveOrder(orderId)
 
-    return res.status(200).json(new CustomResponse("OK", "Order Approved Successfully", approvedOrder))
+    return res.status(200).json(new CustomResponse("OK", "Order Approved Successfully"))
   } catch (err) {
     errorHandler(res, err)
   }

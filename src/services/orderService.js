@@ -12,7 +12,7 @@ const createOrder = async (payload) => {
 }
 
 const approveOrder = async (orderId) => {
-  return await OrderRepository.approveById(orderId)
+  await OrderRepository.approveById(orderId)
 }
 
 const getAllOrder = async () => {

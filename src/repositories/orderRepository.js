@@ -37,7 +37,7 @@ const findByUserIdAndCourseId = async (userId, courseId) => {
 }
 
 const approveById = async (orderId) => {
-  const approvedOrder = await prisma.order.update({
+  await prisma.order.update({
     where: {
       id: orderId
     },
@@ -50,8 +50,6 @@ const approveById = async (orderId) => {
       payment: true
     }
   })
-
-  return approvedOrder
 }
 
 const findAll = async () => {

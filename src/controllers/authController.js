@@ -36,8 +36,19 @@ const currentUserHandler = (req, res) => {
   return res.status(200).json(new CustomResponse("OK", null, filteredUser))
 }
 
+const logoutHandler = (req, res) => {
+  const token = req.cookies?.jwt;
+
+  if (!token) return res.sendStatus(204)
+
+  res.clearCookie('jwt', { httpOnly: true })
+
+  return res.status("200").json(new CustomResponse("OK", "Logout Successfully"))
+}
+
 module.exports = {
   registerHandler,
   loginHandler,
-  currentUserHandler
+  currentUserHandler,
+  logoutHandler
 }
