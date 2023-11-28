@@ -58,6 +58,12 @@ const updateProfile = async (userId, payload) => {
   return accessToken
 }
 
+const getTotalUsers = async () => {
+  const totalUsers = await UsersRepository.count()
+
+  return totalUsers
+}
+
 const hashPassword = async (password) => {
   return await bcrypt.hash(password, 10)
 }
@@ -68,5 +74,6 @@ const comparePassword = async (password, hashedPassword) => {
 
 module.exports = {
   changePassword,
-  updateProfile
+  updateProfile,
+  getTotalUsers
 }

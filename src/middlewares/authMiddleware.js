@@ -13,7 +13,7 @@ const verifyJWT = (req, res, next) => {
     if (!token) return res.status(401).json(new CustomResponse("FAIL", "Access Token is Required"))
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) throw new CustomError(403, "Invalid Token")
+      if (err) return res.status(403).json(new CustomResponse("FAIL", "Invalid Token"))
 
       req.user = decoded
 
@@ -24,6 +24,21 @@ const verifyJWT = (req, res, next) => {
   }
 }
 
+const verifyAdmin = (req, res, next) => {
+  const { role } = req.user
+
+  try {
+    if (role !== "ADMIN") {
+      return res.status(403).json(new CustomResponse("FAIL", "Only Admin can access this resource"))
+    }
+
+    next()
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
 module.exports = {
-  verifyJWT
+  verifyJWT,
+  verifyAdmin
 }

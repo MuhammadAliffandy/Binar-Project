@@ -28,6 +28,20 @@ const loginHandler = async (req, res) => {
   }
 }
 
+const loginAdminHandler = async (req, res) => {
+  const payload = req.body;
+
+  try {
+    const accessToken = await AuthService.loginAdmin(payload)
+
+    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 })
+
+    return res.status(200).json(new CustomResponse("OK", "Login Successfully", { accessToken }))
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
 const currentUserHandler = (req, res) => {
   const user = req.user;
 
@@ -43,12 +57,13 @@ const logoutHandler = (req, res) => {
 
   res.clearCookie('jwt', { httpOnly: true })
 
-  return res.status("200").json(new CustomResponse("OK", "Logout Successfully"))
+  return res.status(200).json(new CustomResponse("OK", "Logout Successfully"))
 }
 
 module.exports = {
   registerHandler,
   loginHandler,
+  loginAdminHandler,
   currentUserHandler,
   logoutHandler
 }

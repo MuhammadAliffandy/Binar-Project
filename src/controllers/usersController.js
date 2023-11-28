@@ -30,7 +30,18 @@ const updateProfileHandler = async (req, res) => {
   }
 }
 
+const getTotalUsersHandler = async (req, res) => {
+  try {
+    const totalUsers = await UsersService.getTotalUsers()
+
+    return res.status(200).json(new CustomResponse("OK", null, { totalUsers }))
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
 module.exports = {
   changePasswordHandler,
-  updateProfileHandler
+  updateProfileHandler,
+  getTotalUsersHandler
 }
