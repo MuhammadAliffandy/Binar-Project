@@ -52,10 +52,21 @@ const updatePasswordById = async (userId, newHashedPassword) => {
   })
 }
 
+const count = async () => {
+  const totalUsers = await prisma.user.count({
+    where: {
+      role: "USER"
+    }
+  })
+
+  return totalUsers
+}
+
 module.exports = {
   findById,
   findByPhone,
   findByEmail,
   updateById,
   updatePasswordById,
+  count
 }

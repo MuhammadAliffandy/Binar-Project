@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 const swaggerUi= require('swagger-ui-express')
 const swaggerJson = require('./openapi.json')
 const routes = require("./src/routes/route");
@@ -15,6 +16,7 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: false}));
+app.use(cookieParser())
 app.use('/api-documentation', swaggerUi.serve, swaggerUi.setup(swaggerJson))
 app.use('/',routes);
 

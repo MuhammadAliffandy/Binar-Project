@@ -4,9 +4,9 @@ const AuthMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router
-    .get('/', AuthMiddleware.verifyJWT, getAllOrderHandler)
+    .get('/', AuthMiddleware.verifyJWT, AuthMiddleware.verifyAdmin, getAllOrderHandler)
     .post('/', AuthMiddleware.verifyJWT, createOrderHandler)
     .get('/id', AuthMiddleware.verifyJWT, getAllUserOrderHandler)
-    .put('/approve', AuthMiddleware.verifyJWT, approveOrderHandler)
+    .put('/approve', AuthMiddleware.verifyJWT, AuthMiddleware.verifyAdmin, approveOrderHandler)
 
 module.exports = router;
