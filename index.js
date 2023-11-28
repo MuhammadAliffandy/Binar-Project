@@ -24,7 +24,9 @@ app.get('/', async(req, res) => {
     res.status(200).json({ message: "Ping successfully" });
 })
 
-app.listen(5000, async () => {
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, async () => {
     console.log('listening on http://localhost:5000');
 });
 
