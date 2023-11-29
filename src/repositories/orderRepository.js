@@ -55,7 +55,18 @@ const approveById = async (orderId) => {
 const findAll = async () => {
   const orders = await prisma.order.findMany({
     include: {
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          image: true,
+          country: true,
+          city: true,
+          role: true
+        }
+      },
       course: true,
       payment: true
     }
@@ -70,7 +81,18 @@ const findAllByUserId = async (userId) => {
       userId
     },
     include: {
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          image: true,
+          country: true,
+          city: true,
+          role: true
+        }
+      },
       course: true,
       payment: true
     }
@@ -79,10 +101,36 @@ const findAllByUserId = async (userId) => {
   return orders
 }
 
+const findAllFiltered = async (filterOption, orderOption) => {
+  const filteredOrders = await prisma.order.findMany({
+    where: filterOption,
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          image: true,
+          country: true,
+          city: true,
+          role: true
+        }
+      },
+      course: true,
+      payment: true
+    },
+    orderBy: orderOption
+  })
+
+  return filteredOrders
+}
+
 module.exports = {
   create,
   findByUserIdAndCourseId,
   approveById,
   findAll,
-  findAllByUserId
+  findAllByUserId,
+  findAllFiltered
 }

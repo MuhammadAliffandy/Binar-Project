@@ -88,6 +88,10 @@ const resetPassword = async (email) => {
 
   if (!foundUser) throw new CustomError(401, "Email not Registered")
 
+  if (foundUser.resetToken !== null) {
+    throw new CustomError(409, "Reset Password Link has been sent")
+  }
+
   const resetToken = uuid.v4()
 
   await AuthRepository.createResetToken(email, resetToken)
@@ -98,13 +102,13 @@ const resetPassword = async (email) => {
     port: 465,
     secure: true,
     auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD
+      user: process.env.NODEMAILER_EMAIL,
+      pass: process.env.NODEMAILER_PASSWORDO
     }
   });
 
   await transporter.sendMail({
-    from: process.env.EMAIL,
+    from: process.env.NODEMAILER_EMAIL,
     to: email,
     subject: 'Reset Password',
     text: `Click this link http://localhost:3000/auth/reset-password/${resetToken}`

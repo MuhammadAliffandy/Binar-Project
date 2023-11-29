@@ -5,6 +5,6 @@ const router = express.Router();
 
 router
     .post('/', AuthMiddleware.verifyJWT, createNotificationHandler)
-    .get('/id', AuthMiddleware.verifyJWT, getAllUserNotificationHandler)
+    .get('/user', AuthMiddleware.verifyJWT, getAllUserNotificationHandler)
 
 module.exports = router;

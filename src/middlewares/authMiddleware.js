@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken')
 const CustomResponse = require("../../lib/customResponse")
 const errorHandler = require("../../lib/errorHandler")
-const CustomError = require("../../lib/customError");
-const { decode } = require("jsonwebtoken");
 
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;

@@ -23,9 +23,30 @@ const getAllUserOrder = async (userId) => {
   return await OrderRepository.findAllByUserId(userId)
 }
 
+const getAllFilteredOrder = async (payload) => {
+  const filterOption = {};
+
+  if (payload.category) {
+    filterOption.course = {
+      categoryId: payload.category
+    }
+  }
+
+  if (payload.status) {
+    filterOption.status = payload.status
+  }
+
+  const orderByOption = payload.date ? { createdAt : payload.date } : { createdAt: "asc" }
+
+  const filteredOrders = await OrderRepository.findAllFiltered(filterOption, orderByOption)
+
+  return filteredOrders
+}
+
 module.exports = {
   createOrder,
   approveOrder,
   getAllOrder,
-  getAllUserOrder
+  getAllUserOrder,
+  getAllFilteredOrder
 }

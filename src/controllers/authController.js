@@ -79,7 +79,7 @@ const resetPasswordUserHandler = async (req, res) => {
   try {
     await AuthService.resetPasswordUser(resetToken, password)
 
-    return res.status(200).json(new CustomResponse("OK", `Reset Password Successfully`))
+    return res.status(200).json(new CustomResponse("OK", 'Reset Password Successfully'))
   } catch (err) {
     errorHandler(res, err)
   }

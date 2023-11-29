@@ -3,10 +3,11 @@ const OrderService = require('../services/orderService')
 const CustomResponse = require("../../lib/customResponse");
 
 const createOrderHandler = async (req, res) => {
+  const { id } = req.user
   const payload = req.body;
 
   try {
-    await OrderService.createOrder(payload)
+    await OrderService.createOrder({userId: id, ...payload})
 
     res.status(201).json(new CustomResponse("OK", "Order Created Successfully"))
   } catch (err) {
@@ -48,9 +49,22 @@ const getAllUserOrderHandler = async (req, res) => {
   }
 }
 
+const getAllFilteredOrderHandler = async (req, res) => {
+  const payload = req.body;
+
+  try {
+    const filteredOrders = await OrderService.getAllFilteredOrder(payload)
+
+    return res.status(200).json(new CustomResponse("OK", null, filteredOrders))
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
 module.exports = {
   createOrderHandler,
   approveOrderHandler,
   getAllOrderHandler,
-  getAllUserOrderHandler
+  getAllUserOrderHandler,
+  getAllFilteredOrderHandler
 }
