@@ -2,6 +2,8 @@ const CustomError = require("../../lib/customError");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const AuthRepository = require("../repositories/authRepository");
+const uuid = require("uuid");
+const nodemailer = require("nodemailer");
 
 const register = async (payload) => {
   const { email, phone, password } = payload
@@ -81,6 +83,52 @@ const loginAdmin = async (payload) => {
   return accessToken
 }
 
+const resetPassword = async (email) => {
+  const foundUser = await AuthRepository.findByEmail(email)
+
+  if (!foundUser) throw new CustomError(401, "Email not Registered")
+
+  const resetToken = uuid.v4()
+
+  await AuthRepository.createResetToken(email, resetToken)
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD
+    }
+  });
+
+  await transporter.sendMail({
+    from: process.env.EMAIL,
+    to: email,
+    subject: 'Reset Password',
+    text: `Click this link http://localhost:3000/auth/reset-password/${resetToken}`
+  })
+}
+
+const resetPasswordUser = async (resetToken, password) => {
+  const user = await AuthRepository.findByResetToken(resetToken)
+
+  if (!user) throw new CustomError(401, "Invalid Reset Token")
+
+  if (user.resetTokenExpiresAt < new Date()) {
+    await AuthRepository.clearResetTokenById(user.id)
+
+    throw new CustomError(401, "Reset Token Expired")
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  await AuthRepository.updatePasswordById(user.id, hashedPassword)
+
+  await AuthRepository.clearResetTokenById(user.id)
+}
+
 const filterUserData = (user) => {
   const { iat, exp, ...filteredUser } = user;
 
@@ -91,5 +139,7 @@ module.exports = {
   register,
   login,
   loginAdmin,
-  filterUserData
+  filterUserData,
+  resetPassword,
+  resetPasswordUser
 }

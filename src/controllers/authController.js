@@ -60,10 +60,37 @@ const logoutHandler = (req, res) => {
   return res.status(200).json(new CustomResponse("OK", "Logout Successfully"))
 }
 
+const resetPasswordHandler = async (req, res) => {
+  const { email } = req.body
+
+  try {
+    await AuthService.resetPassword(email)
+
+    return res.status(200).json(new CustomResponse("OK", `Reset Password Link has been sent to ${email}`))
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
+const resetPasswordUserHandler = async (req, res) => {
+  const { resetToken } = req.params
+  const { password } = req.body
+
+  try {
+    await AuthService.resetPasswordUser(resetToken, password)
+
+    return res.status(200).json(new CustomResponse("OK", `Reset Password Successfully`))
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
 module.exports = {
   registerHandler,
   loginHandler,
   loginAdminHandler,
   currentUserHandler,
-  logoutHandler
+  logoutHandler,
+  resetPasswordHandler,
+  resetPasswordUserHandler
 }
