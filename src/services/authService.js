@@ -103,7 +103,7 @@ const resetPassword = async (email) => {
     secure: true,
     auth: {
       user: process.env.NODEMAILER_EMAIL,
-      pass: process.env.NODEMAILER_PASSWORDO
+      pass: process.env.NODEMAILER_PASSWORD
     }
   });
 
