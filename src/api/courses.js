@@ -7,8 +7,8 @@ router
 .get('/',CoursesController.readCourses)
 .post('/search', CoursesController.checkValidation ,CoursesController.readCoursesById)
 .post('/filter', CoursesController.checkCategoryValidation, CoursesController.readCoursesByCategory)
-.post('/', AuthMiddleware.verifyAdmin  ,CoursesController.createValidation  , CoursesController.createCourses )
-.put('/', AuthMiddleware.verifyAdmin ,CoursesController.updateValidation , CoursesController.updatedCourses)
-.delete('/' , AuthMiddleware.verifyAdmin , CoursesController.checkValidation , CoursesController.deletedCourses )
+.post('/',AuthMiddleware.verifyJWT, AuthMiddleware.verifyAdmin  ,CoursesController.createValidation  , CoursesController.createCourses )
+.put('/', AuthMiddleware.verifyJWT , AuthMiddleware.verifyAdmin ,CoursesController.updateValidation , CoursesController.updatedCourses)
+.delete('/' ,AuthMiddleware.verifyJWT ,AuthMiddleware.verifyAdmin , CoursesController.checkValidation , CoursesController.deletedCourses )
 
 module.exports = router;
