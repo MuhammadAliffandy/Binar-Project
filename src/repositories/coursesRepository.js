@@ -5,6 +5,9 @@ const readCourses = () => {
     return prisma.Course.findMany({
         where : {
             deletedAt : null
+        },
+        include : {
+            category : true 
         }
     });
 }

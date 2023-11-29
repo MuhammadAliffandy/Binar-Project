@@ -699,5 +699,33 @@ describe('#coursesController', () => {
         
     })
 
+    describe('#checkCategoryValidation', () => {
+
+        it('should return data its not found dan status code 400', async () => {
+            
+            const mockReq = {
+                body : null
+            }
+
+            const mockRes = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            };
+
+            const mockNext = jest.fn();
+
+            CoursesService.readCoursesByCategory.mockReturnValue(null)
+
+            await CoursesController.checkCategoryValidation(mockReq,mockRes,mockNext);
+
+            expect(mockRes.status).toHaveBeenCalledWith(400);
+            expect(mockRes.json).toHaveBeenCalledWith(
+                new CustomResponse("FAIL", "data its not found")
+            );
+            expect(mockNext).not.toHaveBeenCalled();
+        });
+        
+    })
+
 
 });
