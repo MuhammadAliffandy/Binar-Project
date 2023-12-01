@@ -1,5 +1,7 @@
 const prisma = require('../../lib/prisma')
 const { v4: uuidv4 } = require("uuid");
+const generateOTP = require("../../lib/generateOTP");
+const getDateInFuture = require("../../lib/getDateInFuture");
 
 const create = async (payload) => {
   await prisma.user.create({
@@ -57,8 +59,7 @@ const findByResetToken = async (resetToken) => {
 }
 
 const createResetToken = async (email, resetToken) => {
-  const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + 1);
+  const expiresAt = getDateInFuture()
 
   await prisma.user.update({
     where: {
@@ -96,6 +97,54 @@ const updatePasswordById = async (userId, hashedPassword) => {
   })
 }
 
+const createOTP = async (email) => {
+  const expiredAt = getDateInFuture(5)
+
+  const createdOTP = await prisma.otp.create({
+    data: {
+      email,
+      otp: generateOTP(),
+      expiredAt
+    }
+  })
+
+  return createdOTP
+}
+
+const findOTPByEmail = async (email) => {
+  const foundOTP = await prisma.otp.findUnique({
+    where: {
+      email
+    }
+  })
+
+  return foundOTP
+}
+
+const updateOTPByEmail = async (email) => {
+  const expiredAt = getDateInFuture(5)
+
+  const updatedOTP = await prisma.otp.update({
+    where: {
+      email
+    },
+    data: {
+      otp: generateOTP(),
+      expiredAt
+    }
+  })
+
+  return updatedOTP
+}
+
+const deleteOTPByEmail = async (email) => {
+  await prisma.otp.delete({
+    where: {
+      email
+    }
+  })
+}
+
 module.exports = {
   create,
   findByEmail,
@@ -104,5 +153,9 @@ module.exports = {
   findByResetToken,
   createResetToken,
   clearResetTokenById,
-  updatePasswordById
+  updatePasswordById,
+  createOTP,
+  findOTPByEmail,
+  updateOTPByEmail,
+  deleteOTPByEmail
 }

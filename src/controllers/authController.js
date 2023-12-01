@@ -8,7 +8,31 @@ const registerHandler = async (req, res) => {
   try {
     await AuthService.register(payload)
 
-    return res.status(201).json(new CustomResponse("OK", "Register Successfully"))
+    return res.status(200).json(new CustomResponse("OK", `OTP Number has been sent to ${payload.email}`))
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
+const registerWithOTPHandler = async (req, res) => {
+  const payload = req.body
+
+  try {
+    await AuthService.registerWithOTP(payload)
+
+    return res.status(200).json(new CustomResponse("OK", "Register Successfully"))
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
+const resendOTPHandler = async (req, res) => {
+  const { email } = req.body
+
+  try {
+    await AuthService.resendOTP(email)
+
+    return res.status(200).json(new CustomResponse("OK", `OTP Number has been sent to ${email}`))
   } catch (err) {
     errorHandler(res, err)
   }
@@ -87,6 +111,8 @@ const resetPasswordUserHandler = async (req, res) => {
 
 module.exports = {
   registerHandler,
+  registerWithOTPHandler,
+  resendOTPHandler,
   loginHandler,
   loginAdminHandler,
   currentUserHandler,

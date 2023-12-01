@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const AuthRepository = require("../repositories/authRepository");
 const uuid = require("uuid");
-const nodemailer = require("nodemailer");
+const sendMail = require("../../lib/sendMail");
 
 const register = async (payload) => {
-  const { email, phone, password } = payload
+  const { email, phone } = payload
 
   const foundUserWithSameEmail = await AuthRepository.findByEmail(email)
 
@@ -16,9 +16,45 @@ const register = async (payload) => {
 
   if (foundUserWithSamePhone) throw new CustomError(409, "Phone Already Used")
 
+  const foundUserWithSameOTP = await AuthRepository.findOTPByEmail(email)
+
+  if (foundUserWithSameOTP) {
+    await resendOTP(email)
+
+    return
+  }
+
+  const createdOTP = await AuthRepository.createOTP(email)
+
+  await sendMail(email, "Register OTP", `Your OTP Number is ${createdOTP.otp} this OTP will expire in 10 minutes`)
+}
+
+const registerWithOTP = async (payload) => {
+  const { name, email, phone, password, otp } = payload
+
+  const foundOTP = await AuthRepository.findOTPByEmail(email)
+
+  if (foundOTP.otp !== otp) {
+    throw new CustomError(400, "Invalid OTP")
+  }
+
+  if (foundOTP.expiredAt < new Date()) {
+    await AuthRepository.deleteOTPByEmail(email)
+
+    throw new CustomError(410, "OTP has Expired")
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  await AuthRepository.create({ ...payload, password: hashedPassword })
+  await AuthRepository.create({ name, email, phone, password: hashedPassword })
+
+  await AuthRepository.deleteOTPByEmail(email)
+}
+
+const resendOTP = async (email) => {
+  const updatedOTP = await AuthRepository.updateOTPByEmail(email)
+
+  await sendMail(email, "Register OTP", `Your OTP Number is ${updatedOTP.otp} this OTP will expire in 10 minutes`)
 }
 
 const login = async (payload) => {
@@ -96,23 +132,7 @@ const resetPassword = async (email) => {
 
   await AuthRepository.createResetToken(email, resetToken)
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.NODEMAILER_EMAIL,
-      pass: process.env.NODEMAILER_PASSWORD
-    }
-  });
-
-  await transporter.sendMail({
-    from: process.env.NODEMAILER_EMAIL,
-    to: email,
-    subject: 'Reset Password',
-    text: `Click this link http://localhost:3000/auth/reset-password/${resetToken}`
-  })
+  await sendMail(email, 'Reset Password', `Click this link http://localhost:3000/auth/reset-password/${resetToken}`)
 }
 
 const resetPasswordUser = async (resetToken, password) => {
@@ -141,6 +161,8 @@ const filterUserData = (user) => {
 
 module.exports = {
   register,
+  registerWithOTP,
+  resendOTP,
   login,
   loginAdmin,
   filterUserData,

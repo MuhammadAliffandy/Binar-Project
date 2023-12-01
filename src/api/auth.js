@@ -1,12 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const { registerHandler, loginHandler, currentUserHandler, logoutHandler, loginAdminHandler, resetPasswordHandler,
-  resetPasswordUserHandler
+  resetPasswordUserHandler, registerWithOTPHandler, resendOTPHandler
 } = require('../controllers/authController')
 const AuthMiddleware = require('../middlewares/authMiddleware')
 
 router
     .post('/register', registerHandler)
+    .post('/register/otp', registerWithOTPHandler)
+    .put('/register/resend-otp', resendOTPHandler)
     .post('/login', loginHandler)
     .post('/admin/login', loginAdminHandler)
     .get('/current-user', AuthMiddleware.verifyJWT, currentUserHandler)
