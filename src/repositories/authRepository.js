@@ -58,7 +58,7 @@ const findByResetToken = async (resetToken) => {
 }
 
 const createResetToken = async (email, resetToken) => {
-  const expiredAt = getDateInFuture()
+  const expiredAt = getDateInFuture(10)
 
   await prisma.user.update({
     where: {
@@ -97,7 +97,7 @@ const updatePasswordById = async (userId, hashedPassword) => {
 }
 
 const createOTP = async (email) => {
-  const expiredAt = getDateInFuture(5)
+  const expiredAt = getDateInFuture(10)
 
   const createdOTP = await prisma.otp.create({
     data: {
@@ -121,7 +121,7 @@ const findOTPByEmail = async (email) => {
 }
 
 const updateOTPByEmail = async (email) => {
-  const expiredAt = getDateInFuture(5)
+  const expiredAt = getDateInFuture(10)
 
   const updatedOTP = await prisma.otp.update({
     where: {

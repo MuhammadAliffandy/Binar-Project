@@ -132,13 +132,13 @@ const resetPassword = async (email) => {
 
   await AuthRepository.createResetToken(email, resetToken)
 
-  await sendMail(email, 'Reset Password', `Click this link http://localhost:3000/auth/reset-password/${resetToken}`)
+  await sendMail(email, 'Reset Password', `Click this link http://localhost:3000/auth/reset-password/${resetToken} this link will expire in 10 minutes`)
 }
 
 const resetPasswordUser = async (resetToken, password) => {
   const user = await AuthRepository.findByResetToken(resetToken)
 
-  if (!user) throw new CustomError(400, "Invalid Reset Token")
+  if (!user) throw new CustomError(403, "Invalid Reset Token")
 
   if (user.resetTokenExpiredAt < new Date()) {
     await AuthRepository.clearResetTokenById(user.id)
