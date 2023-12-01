@@ -1,5 +1,4 @@
 const prisma = require('../../lib/prisma')
-const { v4: uuidv4 } = require("uuid");
 const generateOTP = require("../../lib/generateOTP");
 const getDateInFuture = require("../../lib/getDateInFuture");
 
@@ -59,7 +58,7 @@ const findByResetToken = async (resetToken) => {
 }
 
 const createResetToken = async (email, resetToken) => {
-  const expiresAt = getDateInFuture()
+  const expiredAt = getDateInFuture()
 
   await prisma.user.update({
     where: {
@@ -67,7 +66,7 @@ const createResetToken = async (email, resetToken) => {
     },
     data: {
       resetToken,
-      resetTokenExpiresAt: expiresAt
+      resetTokenExpiredAt: expiredAt
     }
   })
 
@@ -81,7 +80,7 @@ const clearResetTokenById = async (userId) => {
     },
     data: {
       resetToken: null,
-      resetTokenExpiresAt: null
+      resetTokenExpiredAt: null
     }
   })
 }

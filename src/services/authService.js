@@ -138,12 +138,12 @@ const resetPassword = async (email) => {
 const resetPasswordUser = async (resetToken, password) => {
   const user = await AuthRepository.findByResetToken(resetToken)
 
-  if (!user) throw new CustomError(401, "Invalid Reset Token")
+  if (!user) throw new CustomError(400, "Invalid Reset Token")
 
-  if (user.resetTokenExpiresAt < new Date()) {
+  if (user.resetTokenExpiredAt < new Date()) {
     await AuthRepository.clearResetTokenById(user.id)
 
-    throw new CustomError(401, "Reset Token Expired")
+    throw new CustomError(410, "Reset Token Expired")
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
