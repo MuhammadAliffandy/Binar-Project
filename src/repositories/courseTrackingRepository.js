@@ -16,6 +16,19 @@ const readCourseTrackingById = (payload) => {
     });
 }
 
+const readCourseTrackingByUserTrack = (payload) => {
+
+    const { userId ,courseId } = payload
+
+    return prisma.ModuleTracking.findMany({
+        where : {
+            userId : userId,
+            courseId: courseId
+
+        }
+    });
+}
+
 const createCourseTracking = (payload) => {
 
     const { status , userId , courseId } = payload;
@@ -58,6 +71,7 @@ const updatedCourseTracking = (payload ) => {
 module.exports = {
     readCourseTracking,
     readCourseTrackingById,
+    readCourseTrackingByUserTrack,
     createCourseTracking,
     updatedCourseTracking,
 }
