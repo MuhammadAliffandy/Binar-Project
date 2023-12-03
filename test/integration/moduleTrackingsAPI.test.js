@@ -21,7 +21,7 @@ beforeAll(async () => {
                         .set('Authorization',`Bearer ${token}`)
                         .send({
                             status : "PROGRESS",
-                            userId: userDummy,
+                            userId: "899c5fa0-f64c-4966-868a-0d5a5720cfe7",
                             moduleId: moduleDummy
                         })
 
