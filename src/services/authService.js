@@ -69,7 +69,7 @@ const login = async (payload) => {
   if (!isPasswordMatch) throw new CustomError(401, "Wrong Password")
 
   const accessToken = jwt.sign(
-      {
+      { 
         id: foundUser.id,
         name: foundUser.name,
         email: foundUser.email,

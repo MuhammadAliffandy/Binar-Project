@@ -7,7 +7,8 @@ const readCourses = () => {
             deletedAt : null
         },
         include : {
-            category : true 
+            category : true, 
+            module : true
         }
     });
 }
