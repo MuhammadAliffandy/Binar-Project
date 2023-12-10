@@ -40,7 +40,6 @@ const resendOTPHandler = async (req, res) => {
 
 const loginHandler = async (req, res) => {
   const payload = req.body;
-
   try {
     const accessToken = await AuthService.login(payload)
 

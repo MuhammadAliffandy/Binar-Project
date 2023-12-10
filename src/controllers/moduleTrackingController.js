@@ -80,6 +80,12 @@ const createValidation = async(req , res , next) => {
         }
     }
 
+    const isTracking = await ModuleTrackingService.readModuleTrackingByUserTrack(body);
+    
+    if(isTracking){
+        return res.status(400).json(new CustomResponse("FAIL", `Module is running now`))
+    }
+
     next();
 
 }

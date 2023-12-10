@@ -80,10 +80,15 @@ const createValidation = async(req , res , next) => {
         }
     }
 
+    const isTracking = await CourseTrackingService.readCourseTrackingByUserTrack(body);
+    
+    if(isTracking){
+        return res.status(400).json(new CustomResponse("FAIL", `Course is running now`))
+    }
+
     next();
 
 }
-
 
 const updateValidation = async(req , res , next) => {
 
