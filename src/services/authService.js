@@ -41,7 +41,7 @@ const registerWithOTP = async (payload) => {
   if (foundOTP.expiredAt < new Date()) {
     await AuthRepository.deleteOTPByEmail(email)
 
-    throw new CustomError(410, "OTP has Expired")
+    throw new CustomError(410, "OTP Expired")
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)

@@ -20,7 +20,7 @@ const registerWithOTPHandler = async (req, res) => {
   try {
     await AuthService.registerWithOTP(payload)
 
-    return res.status(200).json(new CustomResponse("OK", "Register Successfully"))
+    return res.status(201).json(new CustomResponse("OK", "Register Successfully"))
   } catch (err) {
     errorHandler(res, err)
   }

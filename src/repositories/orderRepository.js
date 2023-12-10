@@ -11,11 +11,16 @@ const create = async (userId, courseId, payment) => {
     }
   })
 
-  await prisma.order.create({
+  const createdOrder = await prisma.order.create({
     data: {
       userId,
       courseId,
       paymentId: createdPayment.id
+    },
+    include: {
+      user: true,
+      course: true,
+      payment: true,
     }
   })
 }
