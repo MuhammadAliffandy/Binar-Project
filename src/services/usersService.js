@@ -2,6 +2,7 @@ const UsersRepository = require('../repositories/usersRepository')
 const bcrypt = require("bcrypt");
 const CustomError = require("../../lib/customError");
 const jwt = require("jsonwebtoken");
+const sendMail = require("../../lib/sendMail");
 
 const changePassword = async (userId, payload) => {
   const { password, newPassword } = payload
@@ -14,7 +15,13 @@ const changePassword = async (userId, payload) => {
 
   const hashedNewPassword = await hashPassword(newPassword)
 
-  await UsersRepository.updatePasswordById(userId, hashedNewPassword)
+  const updatedUser = await UsersRepository.updatePasswordById(userId, hashedNewPassword)
+
+  await sendMail(
+      updatedUser.email,
+      "Password Change Confirmation",
+      `We hope this email finds you well. We're writing to inform you that the password for your CraftIQ account has been successfully changed.`
+  )
 }
 
 const updateProfile = async (userId, payload) => {

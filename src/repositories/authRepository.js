@@ -3,11 +3,13 @@ const generateOTP = require("../../lib/generateOTP");
 const getDateInFuture = require("../../lib/getDateInFuture");
 
 const create = async (payload) => {
-  await prisma.user.create({
+  const createdUser = await prisma.user.create({
     data: {
       ...payload
     }
   })
+
+  return createdUser
 }
 
 const findByEmail = async (email) => {

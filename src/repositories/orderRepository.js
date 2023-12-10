@@ -23,6 +23,8 @@ const create = async (userId, courseId, payment) => {
       payment: true,
     }
   })
+
+  return createdOrder
 }
 
 const findByUserIdAndCourseId = async (userId, courseId) => {
@@ -42,7 +44,7 @@ const findByUserIdAndCourseId = async (userId, courseId) => {
 }
 
 const approveById = async (orderId) => {
-  await prisma.order.update({
+  const updatedOrder = await prisma.order.update({
     where: {
       id: orderId
     },
@@ -55,6 +57,8 @@ const approveById = async (orderId) => {
       payment: true
     }
   })
+
+  return updatedOrder
 }
 
 const findAll = async () => {

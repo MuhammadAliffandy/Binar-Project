@@ -46,9 +46,15 @@ const registerWithOTP = async (payload) => {
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  await AuthRepository.create({ name, email, phone, password: hashedPassword })
+  const createdUser = await AuthRepository.create({ name, email, phone, password: hashedPassword })
 
   await AuthRepository.deleteOTPByEmail(email)
+
+  await sendMail(
+      createdUser.email,
+      "Welcome to CraftIQ",
+      `Welcome to CraftIQ ! We're thrilled to have you on board. Your registration is now complete, and you're officially part of us`
+  )
 }
 
 const resendOTP = async (email) => {
@@ -151,6 +157,12 @@ const resetPasswordUser = async (resetToken, password) => {
   await AuthRepository.updatePasswordById(user.id, hashedPassword)
 
   await AuthRepository.clearResetTokenById(user.id)
+
+  await sendMail(
+      user.email,
+      "Password Change Confirmation",
+      `We hope this email finds you well. We're writing to inform you that the password for your CraftIQ account has been successfully changed.`
+  )
 }
 
 const filterUserData = (user) => {

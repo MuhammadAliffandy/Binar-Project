@@ -42,7 +42,7 @@ const updateById = async (userId, payload) => {
 }
 
 const updatePasswordById = async (userId, newHashedPassword) => {
-  await prisma.user.update({
+  const updatedUser = await prisma.user.update({
     where: {
       id: userId
     },
@@ -50,6 +50,8 @@ const updatePasswordById = async (userId, newHashedPassword) => {
       password: newHashedPassword
     }
   })
+
+  return updatedUser
 }
 
 const count = async () => {

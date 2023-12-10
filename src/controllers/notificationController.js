@@ -15,13 +15,38 @@ const createNotificationHandler = async (req, res) => {
   }
 }
 
+const updateNotificationViewedHandler = async (req, res) => {
+  const { notificationId } = req.body
+
+  try {
+    await NotificationService.updateNotificationViewed(notificationId)
+
+    return res.status(200).json(new CustomResponse("OK", "Notification Viewed Updated Successfully"))
+  } catch (err) {
+    errorHandler(res, err)
+  }
+}
+
+const updateAllNotificationViewedHandler = async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    await NotificationService.updateAllNotificationViewed(id);
+
+    return res.status(200).json(new CustomResponse("OK", "All Notification Viewed Updated Successfully"))
+  } catch (err) {
+    errorHandler(res, err)
+
+  }
+}
+
 const getAllUserNotificationHandler = async (req, res) => {
   const { id } = req.user;
 
   try {
     const notifications = await NotificationService.getAllUserNotification(id)
 
-    res.status(201).json(new CustomResponse("OK", null, notifications))
+    res.status(200).json(new CustomResponse("OK", null, notifications))
   } catch (err) {
     errorHandler(res, err)
   }
@@ -29,5 +54,7 @@ const getAllUserNotificationHandler = async (req, res) => {
 
 module.exports = {
   createNotificationHandler,
+  updateNotificationViewedHandler,
+  updateAllNotificationViewedHandler,
   getAllUserNotificationHandler
 }
