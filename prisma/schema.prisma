@@ -78,6 +78,7 @@ model Course {
   rating      Float     @default(0.00)
   price       Int
   level       Level     @default(BEGINNER)
+  telegram    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?

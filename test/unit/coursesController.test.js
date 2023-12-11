@@ -27,6 +27,7 @@ describe('#coursesController', () => {
                 rating: 4.5,
                 price: 19.99,
                 level: "INTERMEDIATE",
+                telegram : 'www.tele.com',
                 categoryId: "1",
             }];
 
@@ -82,6 +83,7 @@ describe('#coursesController', () => {
                 rating: 4.5,
                 price: 19.99,
                 level: "INTERMEDIATE",
+                telegram : 'www.tele.com',
                 categoryId: "1",
             };
 
@@ -147,6 +149,7 @@ describe('#coursesController', () => {
                 rating: 4.5,
                 price: 19.99,
                 level: "INTERMEDIATE",
+                telegram : 'www.tele.com',
                 categoryId: "1",
             };
 
@@ -212,6 +215,7 @@ describe('#coursesController', () => {
                 rating: 4.5,
                 price: 19.99,
                 level: "INTERMEDIATE",
+                telegram : 'www.tele.com',
                 categoryId: "1",
             };
 
@@ -275,6 +279,7 @@ describe('#coursesController', () => {
                 rating: 4.5,
                 price: 19.99,
                 level: "INTERMEDIATE",
+                telegram : 'www.tele.com',
                 categoryId: "1",
             };
 
@@ -408,7 +413,8 @@ describe('#coursesController', () => {
                     authorBy: "Dummy Author",
                     rating: 4.5,
                     price: 19.99,
-                    level: "INTERMEDIATE"
+                    level: "INTERMEDIATE",
+                    telegram : 'www.tele.com',
                 }
             }
 
@@ -441,6 +447,7 @@ describe('#coursesController', () => {
                 'rating',
                 'price',
                 'level',
+                'telegram',
                 'categoryId',
             ];
 
@@ -455,6 +462,7 @@ describe('#coursesController', () => {
                         type: "FREE",
                         authorBy: "Dummy Author",
                         level: "INTERMEDIATE",
+                        telegram : 'www.tele.com',
                         categoryId: "1",
                     },
                     {
@@ -466,6 +474,7 @@ describe('#coursesController', () => {
                         type: "FREE",
                         authorBy: "Dummy Author",
                         level: "INTERMEDIATE",
+                        telegram : 'www.tele.com',
                         categoryId: "1",
                     },
                 ]
@@ -500,6 +509,7 @@ describe('#coursesController', () => {
                 'rating',
                 'price',
                 'level',
+                'telegram',
                 'categoryId',
             ];
 
@@ -515,6 +525,7 @@ describe('#coursesController', () => {
                     authorBy: "Dummy Author",
                     price: 19.99,
                     level: "INTERMEDIATE",
+                    telegram : 'www.tele.com',
                     categoryId: "1"
                 }
             }
@@ -549,6 +560,7 @@ describe('#coursesController', () => {
                     rating: 4.5,
                     price: 19.99,
                     level: "INTERMEDIATE",
+                    telegram : 'www.tele.com',
                     categoryId: "1",
                 }
             }
@@ -606,6 +618,7 @@ describe('#coursesController', () => {
                 rating: 4.5,
                 price: 19.99,
                 level: "INTERMEDIATE",
+                telegram : 'www.tele.com',
                 categoryId: "1",
             };
             
@@ -647,6 +660,7 @@ describe('#coursesController', () => {
                 rating: 4.5,
                 price: 19.99,
                 level: "INTERMEDIATE",
+                telegram : 'www.tele.com',
                 categoryId: "1",
             };
 

@@ -101,6 +101,7 @@ const createValidation = async(req , res , next) => {
         'rating',
         'price',
         'level',
+        'telegram',
         'categoryId',
     ];
     
@@ -148,6 +149,7 @@ const updateValidation = async(req , res , next) => {
         'rating',
         'price',
         'level',
+        'telegram',
         'categoryId',
     ];
 

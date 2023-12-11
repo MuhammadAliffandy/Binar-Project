@@ -35,6 +35,7 @@ beforeAll(async () => {
                                 rating: 4.5,
                                 price: 2999999,
                                 level: "BEGINNER",
+                                telegram : 'www.tele.com',
                                 categoryId: "c46a83ec-ed52-4245-bfbc-5afb90b4b282"
                             })
 
@@ -96,6 +97,7 @@ describe('courses API', () => {
                     rating: 4.5,
                     price: 2999999,
                     level: "BEGINNER",
+                    telegram : 'www.tele.com',
                     categoryId: "c46a83ec-ed52-4245-bfbc-5afb90b4b282"
                 });
             expect(res.statusCode).toBe(201);
@@ -128,6 +130,7 @@ describe('courses API', () => {
                     rating: 4.5,
                     price: 2999999,
                     level: "BEGINNER",
+                    telegram : 'www.tele.com',
                     categoryId: "c46a83ec-ed52-4245-bfbc-5afb90b4b282"
                 });
             expect(res.statusCode).toBe(400);
