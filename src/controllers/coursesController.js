@@ -35,6 +35,17 @@ const readCoursesByCategory = async (req,res) => {
     }
 }
 
+const readCoursesByLevel = async (req,res) => {
+    try { 
+        const payload = req.body;
+        const data = await CoursesService.readCoursesByLevel(payload);
+        return res.status(200).json(new CustomResponse("OK", "View course data successfully", data))
+
+    } catch (err) {
+        errorHandler(res, err)
+    }
+}
+
 const createCourses = async (req,res) => {
     try {
         const user = req.user;
@@ -190,16 +201,32 @@ const checkCategoryValidation = async(req , res , next) => {
 
 }
 
+const checkLevelValidation = async(req , res , next) => {
+
+    const body = req.body;
+
+    const isExisting = await CoursesService.readCoursesByLevel(body);
+    
+    if(isExisting === null){
+        return res.status(400).json(new CustomResponse("FAIL", "data its not found"))
+    }
+
+    next();
+
+}
+
 
 
 module.exports = {
     readCourses,
     readCoursesById,
     readCoursesByCategory,
+    readCoursesByLevel,
     checkValidation,
     createCourses,
     createValidation,
     checkCategoryValidation,
+    checkLevelValidation,
     updateValidation,
     updatedCourses,
     deletedCourses,

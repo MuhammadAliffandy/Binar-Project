@@ -32,6 +32,15 @@ const readCoursesByCategory = (payload) => {
     });
 }
 
+const readCoursesByLevel = (payload) => {
+    const { level } = payload ;
+    return prisma.Course.findMany({
+        where : {
+            level : level
+        },
+    });
+}
+
 const createCourses = (payload , userId) => {
 
     const user = userId.id;
@@ -131,6 +140,7 @@ module.exports = {
     readCourses,
     readCoursesById,
     readCoursesByCategory,
+    readCoursesByLevel,
     createCourses,
     updatedCourses,
     deletedCourses,
