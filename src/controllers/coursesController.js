@@ -117,7 +117,7 @@ const createValidation = async(req , res , next) => {
         }
     }else{
 
-        if(Object.keys(body).length < 11 || Object.keys(body).length > 11  ){
+        if(Object.keys(body).length < 12 || Object.keys(body).length > 12  ){
             return res.status(400).json(new CustomResponse("FAIL", `Invalid data structure. Please check your input`))
         }
         const isChecked = Object.keys(body).every((key , i)=>{
