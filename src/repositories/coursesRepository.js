@@ -56,6 +56,7 @@ const createCourses = (payload , userId) => {
         rating,
         price,
         level,
+        telegram,
         categoryId,
     } = payload 
     
@@ -73,6 +74,7 @@ const createCourses = (payload , userId) => {
             rating:rating,
             price: price,
             level: level,
+            telegram : telegram,
             creator : {
                 connect : {
                     id : user
