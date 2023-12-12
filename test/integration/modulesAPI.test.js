@@ -34,6 +34,7 @@ beforeAll(async () => {
                             chapter : 1
                             
                         })
+                        console.log(courseId)
                         console.log(createModule.body)
     moduleDummy = createModule.body.data.id;
 })
