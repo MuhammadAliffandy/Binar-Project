@@ -1,10 +1,10 @@
 const request = require('supertest');
 const app = require('../../index');
 
+const courseId = "dca21110-876d-4b1d-ba70-90339ce179d9";
 
-const courseId = "a5bb229a-1a88-4195-b12c-e70f1d447022";
 beforeAll(async () => {
-
+    
 
     const auth = await request(app)
                 .post('/auth/login')
