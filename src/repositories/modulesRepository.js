@@ -18,7 +18,7 @@ const readModules = () => {
 
 const createModules = (payload) => {
 
-    const { title , video , time , courseId } = payload;
+    const { title , video , time , courseId , chapter} = payload;
 
     return prisma.Module.create({
         data  : {
@@ -27,6 +27,7 @@ const createModules = (payload) => {
             title : title,
             video: video,
             time: time,
+            chapter : chapter,
             // relation data
             course : {
                 connect : {
