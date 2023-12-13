@@ -13,6 +13,18 @@ const readModuleTrackingById = async (req,res) => {
     }
 }
 
+const readModuleTrackingByUserTrack = async (req,res) => {
+    try {
+        const userId = req.user.id;
+        const payload = { userId , ...req.body  };
+        const data = await ModuleTrackingService.readModuleTrackingByUserTrack(payload);
+        return res.status(200).json(new CustomResponse("OK", "View module tracking data successfully", data))
+
+    } catch (err) {
+        errorHandler(res, err)
+    }
+}
+
 const readModuleTracking = async (req,res) => {
     try {
         const data = await ModuleTrackingService.readModuleTracking();
@@ -136,6 +148,7 @@ const checkValidation = async(req , res , next) => {
 module.exports = {
     readModuleTracking,
     readModuleTrackingById,
+    readModuleTrackingByUserTrack,
     checkValidation,
     createModuleTracking,
     updatedModuleTracking,

@@ -19,8 +19,7 @@ const readCourseTrackingById = (payload) => {
 const readCourseTrackingByUserTrack = (payload) => {
 
     const { userId ,courseId } = payload
-
-    return prisma.ModuleTracking.findMany({
+    return prisma.CourseTracking.findMany({
         where : {
             userId : userId,
             courseId: courseId
