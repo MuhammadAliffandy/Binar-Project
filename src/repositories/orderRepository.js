@@ -102,7 +102,12 @@ const findAllByUserId = async (userId) => {
           role: true
         }
       },
-      course: true,
+      course: {
+          include : {
+            category : true, 
+            module : true
+        }
+      },
       payment: true
     }
   })

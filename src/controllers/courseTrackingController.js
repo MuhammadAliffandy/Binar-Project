@@ -23,6 +23,19 @@ const readCourseTrackingById = async (req,res) => {
     }
 }
 
+const readCourseTrackingByUser = async (req,res) => {
+    try { 
+
+        const userId = req.user.id;
+        const payload = { userId };
+        const data = await CourseTrackingService.readCourseTrackingByUser(payload)
+        return res.status(200).json(new CustomResponse("OK", "View course tracking data successfully", data))
+
+    } catch (err) {
+        errorHandler(res, err)
+    }
+}
+
 const readCourseTrackingByUserTrack = async (req,res) => {
     try { 
 
@@ -149,6 +162,7 @@ const checkValidation = async(req , res , next) => {
 module.exports = {
     readCourseTracking,
     readCourseTrackingById,
+    readCourseTrackingByUser,
     readCourseTrackingByUserTrack,
     checkValidation,
     createCourseTracking,
