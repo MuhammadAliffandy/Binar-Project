@@ -8,6 +8,9 @@ const readModuleTracking = () => {
     return ModuleTrackingRepository.readModuleTracking();
 }
 
+const readModuleTrackingByUser = (payload) => {
+    return ModuleTrackingRepository.readModuleTrackingByUser(payload);
+}
 const readModuleTrackingByUserTrack = (payload) => {
     return ModuleTrackingRepository.readModuleTrackingByUserTrack(payload);
 }
@@ -24,6 +27,7 @@ const updatedModuleTracking = (payload) => {
 module.exports = {
     readModuleTracking,
     readModuleTrackingById,
+    readModuleTrackingByUser,
     readModuleTrackingByUserTrack,
     createModuleTracking,
     updatedModuleTracking,

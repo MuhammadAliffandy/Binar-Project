@@ -54,7 +54,7 @@ const createValidation = async(req , res , next) => {
     }
 
     const requireData = [
-        "title" , "video" , "time", "courseId" 
+        "title" , "video" , "time", "courseId" , "chapter"
     ];
     
     if(Array.isArray(body)){
@@ -69,7 +69,7 @@ const createValidation = async(req , res , next) => {
         }
     }else{
 
-        if(Object.keys(body).length < 4 || Object.keys(body).length > 4  ){
+        if(Object.keys(body).length < 5 || Object.keys(body).length > 5  ){
             return res.status(400).json(new CustomResponse("FAIL", `Invalid data structure. Please check your input`))
         }
         const isChecked = Object.keys(body).every((key , i)=>{
@@ -90,7 +90,7 @@ const updateValidation = async(req , res , next) => {
     let body = req.body;
 
     const requireData = [
-        "id","title" , "video" , "time", "courseId" 
+        "id","title" , "video" , "time", "courseId" , "chapter"
     ];
 
     const isExisting = await ModulesService.readModulesById(body);

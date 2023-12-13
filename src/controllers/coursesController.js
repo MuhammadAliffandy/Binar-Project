@@ -35,6 +35,17 @@ const readCoursesByCategory = async (req,res) => {
     }
 }
 
+const readCoursesByLevel = async (req,res) => {
+    try { 
+        const payload = req.body;
+        const data = await CoursesService.readCoursesByLevel(payload);
+        return res.status(200).json(new CustomResponse("OK", "View course data successfully", data))
+
+    } catch (err) {
+        errorHandler(res, err)
+    }
+}
+
 const createCourses = async (req,res) => {
     try {
         const user = req.user;
@@ -90,6 +101,7 @@ const createValidation = async(req , res , next) => {
         'rating',
         'price',
         'level',
+        'telegram',
         'categoryId',
     ];
     
@@ -105,7 +117,7 @@ const createValidation = async(req , res , next) => {
         }
     }else{
 
-        if(Object.keys(body).length < 11 || Object.keys(body).length > 11  ){
+        if(Object.keys(body).length < 12 || Object.keys(body).length > 12  ){
             return res.status(400).json(new CustomResponse("FAIL", `Invalid data structure. Please check your input`))
         }
         const isChecked = Object.keys(body).every((key , i)=>{
@@ -137,6 +149,7 @@ const updateValidation = async(req , res , next) => {
         'rating',
         'price',
         'level',
+        'telegram',
         'categoryId',
     ];
 
@@ -190,16 +203,32 @@ const checkCategoryValidation = async(req , res , next) => {
 
 }
 
+const checkLevelValidation = async(req , res , next) => {
+
+    const body = req.body;
+
+    const isExisting = await CoursesService.readCoursesByLevel(body);
+    
+    if(isExisting === null){
+        return res.status(400).json(new CustomResponse("FAIL", "data its not found"))
+    }
+
+    next();
+
+}
+
 
 
 module.exports = {
     readCourses,
     readCoursesById,
     readCoursesByCategory,
+    readCoursesByLevel,
     checkValidation,
     createCourses,
     createValidation,
     checkCategoryValidation,
+    checkLevelValidation,
     updateValidation,
     updatedCourses,
     deletedCourses,

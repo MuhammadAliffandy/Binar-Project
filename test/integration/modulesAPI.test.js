@@ -1,10 +1,10 @@
 const request = require('supertest');
 const app = require('../../index');
 
+const courseId = "dca21110-876d-4b1d-ba70-90339ce179d9";
 
-const courseId = "1d9b677c-f08a-4e42-bbc5-94d1df42c5c8";
 beforeAll(async () => {
-
+    
 
     const auth = await request(app)
                 .post('/auth/login')
@@ -30,8 +30,12 @@ beforeAll(async () => {
                             title: "Dummy Modules",
                             video: "www.video.lol",
                             time: 45,
-                            courseId : courseId
+                            courseId : courseId,
+                            chapter : 1
+                            
                         })
+                        console.log(courseId)
+                        console.log(createModule.body)
     moduleDummy = createModule.body.data.id;
 })
 
@@ -83,7 +87,8 @@ describe('modules API', () => {
                     title: "Dummy Modules",
                     video: "www.video.lol",
                     time: 45,
-                    courseId: courseId
+                    courseId: courseId,
+                    chapter : 1
                 });
             expect(res.statusCode).toBe(201);
             expect(res.body).toHaveProperty('status');
@@ -108,7 +113,8 @@ describe('modules API', () => {
                     titleA: "Dummy Modules",
                     video: "www.video.lol",
                     time: 45,
-                    courseId: courseId
+                    courseId: courseId,
+                    chapter : 1
                 });
             expect(res.statusCode).toBe(400);
             expect(res.body).toHaveProperty('status');

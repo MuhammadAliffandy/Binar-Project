@@ -19,7 +19,8 @@ describe('#modulesController', () => {
                 title: "Dummy Modules",
                 video: "www.video.lol",
                 time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                chapter : 1
             }];
 
             const mockReq = {}
@@ -67,7 +68,8 @@ describe('#modulesController', () => {
                 title: "Dummy Modules",
                 video: "www.video.lol",
                 time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                chapter : 1
             };
 
             const mockReq = {
@@ -125,7 +127,8 @@ describe('#modulesController', () => {
                 title: "Dummy Modules",
                 video: "www.video.lol",
                 time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                chapter : 1
             };
 
             const mockReq = {
@@ -181,7 +184,8 @@ describe('#modulesController', () => {
                 title: "Dummy Modules",
                 video: "www.video.lol",
                 time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                chapter : 1
             };
 
             const mockReq = {
@@ -281,7 +285,7 @@ describe('#modulesController', () => {
         it('should invalid data structure if input is array type and status 400 ', async () => {
 
             const requireData = [
-                "title" , "video" , "time", "courseId" 
+                "title" , "video" , "time", "courseId" ,"chapter"
             ]
 
             const mockReq = {
@@ -290,13 +294,15 @@ describe('#modulesController', () => {
                         titleA: "Dummy Modules",
                         video: "www.video.lol",
                         time: 45,
-                        courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                        courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                        chapter : 1
                     },
                     {
                         titleA: "Dummy Modules",
                         video: "www.video.lol",
                         time: 45,
-                        courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                        courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                        chapter : 1
                     },
                 ]
             }
@@ -319,15 +325,16 @@ describe('#modulesController', () => {
 
         it('should invalid sort data and status 400 ', async () => {
             const requireData = [
-                "title" , "video" , "time", "courseId" 
+                "title" , "video" , "time", "courseId" , "chapter"
             ]
 
             const mockReq = {
                 body : {
                     title: "Dummy Modules",
-                    courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502",
+                    courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
                     video: "www.video.lol",
                     time: 45,
+                    chapter : 1
                 }
             }
 
@@ -354,7 +361,8 @@ describe('#modulesController', () => {
                     title: "Dummy Modules",
                     video: "www.video.lol",
                     time: 45,
-                    courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                    courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                    chapter : 1
                 }
             }
 
@@ -403,7 +411,8 @@ describe('#modulesController', () => {
                 titleA: "Dummy Modules",
                 video: "www.video.lol",
                 time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                chapter : 1
             };
             
             const mockReq = {
@@ -436,7 +445,8 @@ describe('#modulesController', () => {
                 title: "Dummy Modules",
                 video: "www.video.lol",
                 time: 45,
-                courseId : "5b76fce4-a584-4d47-9c70-fb38e9b5d502"
+                courseId : "a5bb229a-1a88-4195-b12c-e70f1d447022",
+                chapter : 1
             };
 
             const mockReq = {

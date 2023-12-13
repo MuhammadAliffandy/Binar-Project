@@ -16,11 +16,30 @@ const readCourseTrackingById = (payload) => {
     });
 }
 
+const readCourseTrackingByUser = (payload) => {
+
+    const { userId } = payload
+    return prisma.CourseTracking.findMany({
+        where : {
+            userId : userId,
+        },
+        include : {
+            course : {
+                include : {
+                    category : true, 
+                    module : true
+                }
+            },
+            user : true,
+        }
+        
+    });
+}
+
 const readCourseTrackingByUserTrack = (payload) => {
 
     const { userId ,courseId } = payload
-
-    return prisma.ModuleTracking.findMany({
+    return prisma.CourseTracking.findMany({
         where : {
             userId : userId,
             courseId: courseId
@@ -71,6 +90,7 @@ const updatedCourseTracking = (payload ) => {
 module.exports = {
     readCourseTracking,
     readCourseTrackingById,
+    readCourseTrackingByUser,
     readCourseTrackingByUserTrack,
     createCourseTracking,
     updatedCourseTracking,

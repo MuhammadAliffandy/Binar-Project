@@ -78,6 +78,7 @@ model Course {
   rating      Float     @default(0.00)
   price       Int
   level       Level     @default(BEGINNER)
+  telegram    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
@@ -105,7 +106,7 @@ model Module {
   time      Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  chapter   Int    @default(1)
   course   Course? @relation("moduleList", fields: [courseId], references: [id])
   courseId String
 

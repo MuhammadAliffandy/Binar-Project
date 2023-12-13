@@ -35,9 +35,9 @@ beforeAll(async () => {
                                 rating: 4.5,
                                 price: 2999999,
                                 level: "BEGINNER",
-                                categoryId: "c46a83ec-ed52-4245-bfbc-5afb90b4b282"
-                            })
-
+                                telegram : 'www.tele.com',
+                                categoryId: "21020ab7-e3b0-45c6-a800-16494a92eb0d"
+                            })                        
     courseDummy = createCourse.body.data.id;
 })
 
@@ -96,7 +96,8 @@ describe('courses API', () => {
                     rating: 4.5,
                     price: 2999999,
                     level: "BEGINNER",
-                    categoryId: "c46a83ec-ed52-4245-bfbc-5afb90b4b282"
+                    telegram : 'www.tele.com',
+                    categoryId: "21020ab7-e3b0-45c6-a800-16494a92eb0d"
                 });
             expect(res.statusCode).toBe(201);
             expect(res.body).toHaveProperty('status');
@@ -128,6 +129,7 @@ describe('courses API', () => {
                     rating: 4.5,
                     price: 2999999,
                     level: "BEGINNER",
+                    telegram : 'www.tele.com',
                     categoryId: "c46a83ec-ed52-4245-bfbc-5afb90b4b282"
                 });
             expect(res.statusCode).toBe(400);

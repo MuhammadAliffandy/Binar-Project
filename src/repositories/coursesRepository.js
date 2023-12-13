@@ -32,6 +32,15 @@ const readCoursesByCategory = (payload) => {
     });
 }
 
+const readCoursesByLevel = (payload) => {
+    const { level } = payload ;
+    return prisma.Course.findMany({
+        where : {
+            level : level
+        },
+    });
+}
+
 const createCourses = (payload , userId) => {
 
     const user = userId.id;
@@ -47,6 +56,7 @@ const createCourses = (payload , userId) => {
         rating,
         price,
         level,
+        telegram,
         categoryId,
     } = payload 
     
@@ -64,6 +74,7 @@ const createCourses = (payload , userId) => {
             rating:rating,
             price: price,
             level: level,
+            telegram : telegram,
             creator : {
                 connect : {
                     id : user
@@ -131,6 +142,7 @@ module.exports = {
     readCourses,
     readCoursesById,
     readCoursesByCategory,
+    readCoursesByLevel,
     createCourses,
     updatedCourses,
     deletedCourses,
