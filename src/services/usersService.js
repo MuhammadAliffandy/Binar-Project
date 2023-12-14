@@ -36,13 +36,13 @@ const updateProfile = async (userId, payload) => {
   if (payload.email !== undefined) {
     const foundUserWithEmail = await UsersRepository.findByEmail(payload.email)
 
-    if (foundUserWithEmail.id !== userId) throw new CustomError(409, 'Email Already Used')
+    if ( foundUserWithEmail && foundUserWithEmail.id !== userId) throw new CustomError(409, 'Email Already Used')
   }
 
   if (payload.phone !== undefined) {
     const foundUserWithPhone = await UsersRepository.findByPhone(payload.phone)
 
-    if (foundUserWithPhone.id !== userId) throw new CustomError(409, 'Phone Already Used')
+    if (foundUserWithPhone && foundUserWithPhone.id !== userId) throw new CustomError(409, 'Phone Already Used')
   }
 
   const updatedUser = await UsersRepository.updateById(userId, payload)
