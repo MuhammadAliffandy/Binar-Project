@@ -15,12 +15,7 @@ const readModuleTrackingById = (payload) => {
 const readModuleTracking = () => {
     return prisma.ModuleTracking.findMany({
         include : {
-            course : {
-                include : {
-                    category : true, 
-                    module : true
-                }
-            },
+            module : true , 
             user : true,
         }
     });
