@@ -2,7 +2,17 @@ const prisma = require('../../lib/prisma')
 const { v4: uuidv4 } = require('uuid');
 
 const readCourseTracking = () => {
-    return prisma.CourseTracking.findMany();
+    return prisma.CourseTracking.findMany({
+        include : {
+            course : {
+                include : {
+                    category : true, 
+                    module : true
+                }
+            },
+            user : true,
+        }
+    });
 }
 
 const readCourseTrackingById = (payload) => {
