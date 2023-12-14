@@ -8,7 +8,11 @@ const readCourses = () => {
         },
         include : {
             category : true, 
-            module : true
+            module : {
+                include : {
+                    moduleTracking :true
+                }
+            }
         }
     });
 }
