@@ -7,7 +7,11 @@ const readCourseTracking = () => {
             course : {
                 include : {
                     category : true, 
-                    module : true
+                    module : {
+                        include : {
+                            moduleTracking : true
+                        }
+                    }
                 }
             },
             user : true,
