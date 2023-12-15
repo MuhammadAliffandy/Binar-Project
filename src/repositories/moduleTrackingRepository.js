@@ -13,7 +13,12 @@ const readModuleTrackingById = (payload) => {
 }
 
 const readModuleTracking = () => {
-    return prisma.ModuleTracking.findMany();
+    return prisma.ModuleTracking.findMany({
+        include : {
+            module : true , 
+            user : true,
+        }
+    });
 }
 
 const readModuleTrackingByUser = (payload) => {
