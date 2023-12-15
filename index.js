@@ -10,7 +10,7 @@ const routes = require("./src/routes/route");
 const corsOptions = {
     origin: '*', 
     methods: 'GET,POST,DELETE,PUT', 
-    allowedHeaders: 'Content-Type,Authorization',
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
 }
 
 app.use(express.json());
@@ -18,6 +18,12 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser())
 app.use('/api-documentation', swaggerUi.serve, swaggerUi.setup(swaggerJson))
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    next();
+});
 app.use('/',routes);
 
 app.get('/', async(req, res) => {
