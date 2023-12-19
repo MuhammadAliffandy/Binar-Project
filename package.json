@@ -33,5 +33,9 @@
   },
   "devDependencies": {
     "eslint": "^8.54.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "coverage"
   }
 }
