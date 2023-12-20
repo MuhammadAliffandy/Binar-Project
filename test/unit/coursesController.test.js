@@ -17,7 +17,7 @@ describe('#coursesController', () => {
         it('should return all course data and status code 200 ', async () => {
 
             const course = [{
-                title: "Dummy Title",
+                title: "Dummy title",
                 image: "dummy_image.jpg",
                 subtitle: "Dummy Subtitle",
                 description: "Dummy Description",
