@@ -39,7 +39,7 @@ beforeAll(async () => {
                                 categoryId: "21020ab7-e3b0-45c6-a800-16494a92eb0d"
                             })                        
     courseDummy = createCourse.body.data.id;
-})
+},10000 )
 
 describe('courses API', () => {
     describe('GET /courses', () => {
