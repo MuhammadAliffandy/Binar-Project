@@ -138,7 +138,7 @@ const resetPassword = async (email) => {
 
   await AuthRepository.createResetToken(email, resetToken)
 
-  await sendMail(email, 'Reset Password', `Click this link http://localhost:3000/auth/reset-password/${resetToken} this link will expire in 10 minutes`)
+  await sendMail(email, 'Reset Password', `Click this link http://localhost:3000/reset-password/${resetToken} this link will expire in 10 minutes`)
 }
 
 const resetPasswordUser = async (resetToken, password) => {
