@@ -20,7 +20,7 @@ const readCourses = () => {
 const readCoursesById = (payload) => {
     const { id } = payload ;
 
-    return prisma.Course.findUnique({
+    return prisma.Course.findMany({
         where : {
             id : id
         }
