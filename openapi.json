@@ -1,219 +1,2066 @@
 {
-    "openapi": "3.0.3",
+    "openapi": "3.0.0",
     "info": {
-        "title": "Binar course Documentation API",
-        "description":"This is a sample REST API with design pattern MVC with authorization and authentication. The API have a two model to used, it is users and courses model.",
-        "version": "1.0.11"
-    },
-    "externalDocs": {
-        "description": "Find out more about Swagger",
-        "url": "http://swagger.io"
+    "title": "Massive Open Online Course",
+    "version": "1.0.0",
+    "description": "API Docs For Massive Open Online Course"
     },
     "servers": [
         {
-        "url": "http://localhost:5000/"
+            "url": "http://localhost:5000",
+            "description": "Development Server"
+        },
+        {
+            "url": "https://binar-project-production.up.railway.app",
+            "description": "Production Server"
         }
     ],
+    "components": {
+      "securitySchemes": {
+          "BearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+          }
+      },
+      "schemas": {
+        "Payment": {
+          "type": "object",
+          "properties": {
+            "cardNumber": {
+              "type": "string",
+              "example": "0123456789"
+            },
+            "cardName": {
+              "type": "string",
+              "example": "Windah Basudara"
+            },
+            "cvv": {
+              "type": "integer",
+              "example": 1234
+            },
+            "expiryDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "amount": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        },
+        "Notifications": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["OK", "FAIL"],
+              "example": "OK"
+            },
+            "message": {
+              "type": "string",
+              "example": null
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Discount"
+                  },
+                  "subtitle": {
+                    "type": "string",
+                    "example": "50% All Course"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Terms and Conditions Apply"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-01-01T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-01-01T00:00:00.000Z"
+                  },
+                  "userId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Categories": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["OK", "FAIL"],
+              "example": "OK"
+            },
+            "message": {
+              "type": "string",
+              "example": null
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Web Development"
+                  },
+                  "image": {
+                    "type": "string",
+                    "example": "https://example.com/image.png"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["OK", "FAIL"],
+              "example": "OK"
+            },
+            "message": {
+              "type": "string",
+              "example": null
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Windah Basudara"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "example@gmail.com"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "08123456789"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "https://example.com/image.png"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "Indonesia"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "Bekasi"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "password123"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["USER", "ADMIN"],
+                  "example": "USER"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2023-01-01T00:00:00.000Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2023-01-01T00:00:00.000Z"
+                }
+              }
+            }
+          }
+        },
+        "Orders": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["OK", "FAIL"],
+              "example": "OK"
+            },
+            "message": {
+              "type": "string",
+              "example": null
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["APPROVED", "WAITING"],
+                    "example": "WAITING"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-01-01T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-01-01T00:00:00.000Z"
+                  },
+                  "userId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  },
+                  "courseId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  },
+                  "paymentId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  },
+                  "user": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Windah Basudara"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "example@gmail.com"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "08123456789"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.png"
+                      },
+                      "country": {
+                        "type": "string",
+                        "example": "Indonesia"
+                      },
+                      "city": {
+                        "type": "string",
+                        "example": "Bekasi"
+                      },
+                      "role": {
+                        "type": "string",
+                        "enum": ["USER", "ADMIN"],
+                        "example": "USER"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01T00:00:00.000Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01T00:00:00.000Z"
+                      }
+                    }
+                  },
+                  "course": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "HTML"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.png"
+                      },
+                      "subtitle": {
+                        "type": "string",
+                        "example": "English"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "This is description"
+                      },
+                      "classCode": {
+                        "type": "string",
+                        "example": "XXX123"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["FREE", "PREMIUM"],
+                        "example": "PREMIUM"
+                      },
+                      "authorBy": {
+                        "type": "string",
+                        "example": "Windah Basudara"
+                      },
+                      "rating": {
+                        "type": "number",
+                        "example": 0
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 0
+                      },
+                      "level": {
+                        "type": "string",
+                        "enum": ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
+                        "example": "BEGINNER"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01T00:00:00.000Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01T00:00:00.000Z"
+                      },
+                      "deletedAt": {
+                        "type": "null",
+                        "format": "date-time",
+                        "example": "2023-01-01T00:00:00.000Z"
+                      },
+                      "createdBy": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                      },
+                      "updatedBy": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                      },
+                      "deletedBy": {
+                        "type": "null",
+                        "format": "uuid",
+                        "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                      },
+                      "categoryId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                      }
+                    }
+                  },
+                  "payment": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                      },
+                      "cardNumber": {
+                        "type": "string",
+                        "example": "0123456789"
+                      },
+                      "cardName": {
+                        "type": "string",
+                        "example": "Windah Basudara"
+                      },
+                      "cvv": {
+                        "type": "integer",
+                        "example": 1234
+                      },
+                      "expiryDate": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "amount": {
+                        "type": "number",
+                        "example": 0
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01T00:00:00.000Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01T00:00:00.000Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Course": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "title": {
+              "type": "string",
+              "example": "HTML"
+            },
+            "image": {
+              "type": "string",
+              "example": "https://example.com/image.png"
+            },
+            "subtitle": {
+              "type": "string",
+              "example": "English"
+            },
+            "description": {
+              "type": "string",
+              "example": "This is description"
+            },
+            "classCode": {
+              "type": "string",
+              "example": "XXX123"
+            },
+            "type": {
+              "type": "string",
+              "enum": ["FREE", "PREMIUM"],
+              "example": "PREMIUM"
+            },
+            "authorBy": {
+              "type": "string",
+              "example": "Windah Basudara"
+            },
+            "rating": {
+              "type": "number",
+              "example": 0
+            },
+            "price": {
+              "type": "number",
+              "example": 0
+            },
+            "level": {
+              "type": "string",
+              "enum": ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
+              "example": "BEGINNER"
+            },
+            "telegram": {
+              "type": "string",
+              "example": "www.tele.com"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            },
+            "deletedAt": {
+              "type": "null",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            },
+            "createdBy": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "updatedBy": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "deletedBy": {
+              "type": "null",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "categoryId": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            }
+          }
+        },
+        "CourseTracking": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["PROGRESS", "DONE"],
+              "example": "DONE"
+            },
+            "userId": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "courseId": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            }
+          }
+        },
+        "Module": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "title": {
+              "type": "string",
+              "example": "HTML"
+            },
+            "video": {
+              "type": "string",
+              "example": "https://example.com/video.com"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            },
+            "courseId": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "chapter": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        },
+        "ModuleTracking": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["PROGRESS", "DONE"],
+              "example": "DONE"
+            },
+            "userId": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "moduleId": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-01-01T00:00:00.000Z"
+            }
+          }
+        },
+        "AccessTokenIsRequiredError": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["OK", "FAIL"],
+              "example": "FAIL"
+            },
+            "message": {
+              "type": "string",
+              "example": "Access Token is Required"
+            },
+            "data": {
+              "example": null
+            }
+          }
+        },
+        "InvalidTokenError": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["OK", "FAIL"],
+              "example": "FAIL"
+            },
+            "message": {
+              "type": "string",
+              "example": "Invalid Token"
+            },
+            "data": {
+              "example": null
+            }
+          }
+        },
+        "OnlyAdminError": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["OK", "FAIL"],
+              "example": "FAIL"
+            },
+            "message": {
+              "type": "string",
+              "example": "Only Admin can access this resource"
+            },
+            "data": {
+              "example": null
+            }
+          }
+        },
+        "EmailNotRegisteredError": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["OK", "FAIL"],
+              "example": "FAIL"
+            },
+            "message": {
+              "type": "string",
+              "example": "Email not Registered"
+            },
+            "data": {
+              "example": null
+            }
+          }
+        }
+      }
+    },
     "tags": [
-        {
-            "name": "users",
-            "description": "handle account service to have authenticated and can authorization for access resource"
+    {
+        "name": "Authentication",
+        "description": "Endpoints for user authentication"
+    },
+    {
+        "name": "Users",
+        "description": "Endpoints for user management"
+    },
+    {
+        "name": "Courses",
+        "description": "Endpoints for course management"
+    },
+    {
+        "name": "Modules",
+        "description": "Endpoints for module management"
+    },
+    {
+        "name": "Categories",
+        "description": "Endpoints for category management"
+    },
+    {
+        "name": "Orders",
+        "description": "Endpoints for order management"
+    },
+    {
+        "name": "CourseTrackings",
+        "description": "Endpoints for course tracking management"
+    },
+    {
+        "name": "ModuleTrackings",
+        "description": "Endpoints for module tracking management"
+    },
+    {
+        "name": "Notification",
+        "description": "Endpoints for notification management"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User Registration",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Windah Basudara"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "08123456789"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "password123"
+                  }
+                },
+                "required": ["name", "email", "phone", "password"]
+              }
+            }
+          }
         },
-        {
-            "name": "courses",
-            "description": "handle all CRUD courses data API with authentication and authorization"
-        },
-        {
-            "name": "modules",
-            "description": "handle all CRUD modules data API with authentication and authorization"
-        },
-        {
-            "name": "categories",
-            "description": "handle all CRUD categories data API with authentication and authorization"
-        },
-        {
-            "name": "orders",
-            "description": "handle all CRUD orders data API with authentication and authorization"
-        },
-        {
-            "name": "payments",
-            "description": "handle all CRUD payments data API with authentication and authorization"
-        },
-        {
-            "name": "courseTrackings",
-            "description": "handle all CRUD courseTrackings data API with authentication and authorization"
-        },
-        {
-            "name": "moduleTrackings",
-            "description": "handle all CRUD courseTrackings data API with authentication and authorization"
-        },
-        {
-            "name": "notification",
-            "description": "handle all CRUD courseTrackings data API with authentication and authorization"
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "OTP Number has been sent to example@gmail.com",
+                  "data": null
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email Already Used": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Email Already Used",
+                      "data": null
+                    }
+                  },
+                  "Phone Already Used": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Phone Already Used",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
-    ],
-    "paths": {
-        "/users":{
+      }
+    },
+    "/auth/register/otp": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User OTP Validation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Windah Basudara"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "08123456789"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "password123"
+                  },
+                  "otp": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": ["name", "email", "phone", "password", "otp"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Register Successfully",
+                  "data": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "FAIL",
+                  "message": "Invalid OTP",
+                  "data": null
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "FAIL",
+                  "message": "OTP Expired",
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register/resend-otp": {
+      "put": {
+        "tags": ["Authentication"],
+        "summary": "User OTP Validation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "OTP Number has been sent to example@gmail.com",
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User Login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emailOrPhone": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "password123"
+                  }
+                },
+                "required": ["emailOrPhone", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Login Successfully",
+                  "data": {
+                    "accessToken": "JWT"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email or Phone not Registered": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Email or Phone not Registered",
+                      "data": null
+                    }
+                  },
+                  "Wrong Password": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Wrong Password",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/admin/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Admin Login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emailOrPhone": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "password123"
+                  }
+                },
+                "required": ["emailOrPhone", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Login Successfully",
+                  "data": {
+                    "accessToken": "JWT"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email or Phone not Registered": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Email or Phone not Registered",
+                      "data": null
+                    }
+                  },
+                  "Wrong Password": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Wrong Password",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnlyAdminError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/current-user": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Get Current User Details",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "User Logout",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Logout",
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "put": {
+        "tags": ["Authentication"],
+        "summary": "Send Link Reset Password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Reset Password Link has been sent to example@gmail.com",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailNotRegisteredError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "FAIL",
+                  "message": "Reset Password Link has been sent",
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset-password/{resetToken}": {
+      "put": {
+        "tags": ["Authentication"],
+        "summary": "Reset Password",
+        "parameters": [
+          {
+            "name": "resetToken",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "password123"
+                  }
+                },
+                "required": ["password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Reset Password Successfully",
+                  "data": null
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "FAIL",
+                  "message": "Invalid Reset Token",
+                  "data": null
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "FAIL",
+                  "message": "Reset Token Expired",
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get Total Users",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": null,
+                  "data": 10
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Invalid Token": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Invalid Token",
+                      "data": null
+                    }
+                  },
+                  "Only Admin can access this resource": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Only Admin can access this resource",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update User Data",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Windah Basudara"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "08123456789"
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": "Indonesia"
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": "Bekasi"
+                  }
+                },
+                "required": ["name", "email", "phone"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Profile Updated Successfully",
+                  "data": {
+                    "accessToken": "JWT"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "FAIL",
+                  "message": "name can't be empty"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email Already Used": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Email Already Used",
+                      "data": null
+                    }
+                  },
+                  "Phone Already Used": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Phone Already Used",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/change-password": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Change User Password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "password123"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "example": "password12345"
+                  }
+                },
+                "required": ["password", "newPassword"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Change Password Successfully",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Access Token is Required": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Access Token is Required",
+                      "data": null
+                    }
+                  },
+                  "Wrong Password": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Wrong Password",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get List of Categories",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categories"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notification": {
+      "post": {
+        "tags": ["Notification"],
+        "summary": "Create Notification to Current User",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Discount"
+                  },
+                  "subtitle": {
+                    "type": "string",
+                    "example": "50% All Course"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Terms and Conditions Apply"
+                  }
+                },
+                "required": ["title", "subtitle"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Notification Created Successfully",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Notification"],
+        "summary": "Update Current User Notifiaction Viewed",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notificationId": {
+                    "type": "string",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  }
+                },
+                "required": ["notificationId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Notification Viewed Updated Successfully",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notification/user": {
+      "get": {
+        "tags": ["Notification"],
+        "summary": "Get All Current User Notifications",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notifications"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Notification"],
+        "summary": "Update All Current User Notifiaction Viewed",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "All Notification Viewed Updated Successfully",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Get All Orders",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Orders"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Invalid Token": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Invalid Token",
+                      "data": null
+                    }
+                  },
+                  "Only Admin can access this resource": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Only Admin can access this resource",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Create Orders to Current User",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "courseId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  },
+                  "payment": {
+                    "$ref": "#/components/schemas/Payment"
+                  }
+                },
+                "required": ["courseId", "payment"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Order Created Successfully",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "FAIL",
+                  "message": "Order has already been placed",
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/user": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Get All Current User Orders",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Orders"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidTokenError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/filter": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Get All Orders based on Filter",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoryId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["WAITING", "APPROVED"],
+                    "example": "WAITING"
+                  },
+                  "date": {
+                    "type": "string",
+                    "enum": ["asc", "desc"],
+                    "example": "asc"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Orders"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Invalid Token": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Invalid Token",
+                      "data": null
+                    }
+                  },
+                  "Only Admin can access this resource": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Only Admin can access this resource",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/approve": {
+      "put": {
+        "tags": ["Orders"],
+        "summary": "Approve Order",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "message": "Order Approved Successfully",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenIsRequiredError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Invalid Token": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Invalid Token",
+                      "data": null
+                    }
+                  },
+                  "Only Admin can access this resource": {
+                    "value": {
+                      "status": "FAIL",
+                      "message": "Only Admin can access this resource",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses": {
             "get": {
                 "tags": [
-                    "users"
-                ],
-                "summary": "view users data list",
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "view all users and access from superadmin"
-                    },
-                    "401": {
-                        "description": "unauthorized from user"
-                    },
-                    "403": {
-                        "description": "forbidden from this resource"
-                    },
-                    "404": {
-                        "description": "some error message"
-                    }
-                }
-            }
-        },
-        "/users/current-user":{
-            "get": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "view user data by auth with jwt token",
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description" : "view user data authentication"
-                    },
-                    "401": {
-                        "description": "unauthorized from user"
-                    },
-                    "403": {
-                        "description": "forbidden from this resource"
-                    },
-                    "404": {
-                        "description": "some error message"
-                    }
-                }
-            }
-        },
-        "/users/auth":{
-            "post": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "login user account and get jwt token from authentication",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": ["email","password"]
-                            }
-                        }
-                        }
-                    },
-                    "responses": {
-                        "200": {
-                            "description": "Authentication is successfull"
-                        },
-                        "400": {
-                            "description": "invalid data structure input"
-                        },
-                        "403": {
-                            "description": "forbidden from this resource"
-                        },
-                        "404": {
-                            "description": "some error message"
-                        }
-                    }
-                }
-        },
-        "/users/register":{
-            "post": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "registration for users member",
-                "requestBody": {
-                        "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "phone": {
-                                                "type": "string"
-                                            },
-                                            "address": {
-                                                "type": "string"
-                                            },
-                                            "email": {
-                                                "type": "string"
-                                            },
-                                            "password": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "required": ["name","email","password"]
-                                    }
-                                }
-                            }
-                    },
-                    "responses": {
-                        "201": {
-                            "description": "registration is successfull"
-                        },
-                        "400": {
-                            "description": "invalid data structure input"
-                        },
-                        "404": {
-                            "description": "some error message"
-                        }
-                    }
-                }
-        },
-        "/users/logout":{
-            "post": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "logout user account ",
-                "responses": {
-                    "201": {
-                        "description": "logout is sucessfull"
-                    },
-                    "404": {
-                        "description": "some error message"
-                    }
-                }
-            }
-        },
-        
-        "/courses": {
-            "get": {
-                "tags": [
-                    "courses"
+                    "Courses"
                 ],
                 "summary": "view course list data",
                 "security": [
@@ -223,13 +2070,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "view course list data"
+                        "description": "View all course data successfully"
                     }
                 }
                 },
             "post": {
                 "tags": [
-                    "courses"
+                    "Courses"
                 ],
                 "summary": "create a new course ",
                 "security": [
@@ -266,6 +2113,9 @@
                                         },
                                         "level" : {
                                             "type": "string"
+                                        },
+                                        "telegram" : {
+                                            "type": "string"
                                         }
                                     }
                                 }
@@ -274,7 +2124,7 @@
                     },
                     "responses": {
                         "201": {
-                            "description": "courses data has been created"
+                            "description": "create course data has been successfully"
                         },
                         "400": {
                             "description": "invalid data structure from client"
@@ -293,7 +2143,7 @@
                 },
             "put": {
                 "tags": [
-                    "courses"
+                    "Courses"
                 ],
                 "summary": "update course data",
                 "security": [
@@ -341,7 +2191,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "courses data has been updated"
+                        "description": "update course data has been successfully"
                     },
                     "400": {
                         "description": "invalid data structure from client"
@@ -359,7 +2209,7 @@
             },
             "delete": {
                 "tags": [
-                    "courses"
+                    "Courses"
                 ],
                 "summary": "delete data  course by id ",
                 "security": [
@@ -383,7 +2233,7 @@
                     },
                     "responses": {
                         "201": {
-                            "description": "delete course by id"
+                            "description": "deleted course data has been successfully"
                         },
                         "401": {
                             "description": "unauthorized from user"
@@ -397,130 +2247,19 @@
                         
                     }
                 }
-        },
-        "/courses/search" : {
-            "post": {
-                "tags": [
-                    "courses"
-                ],
-                "summary": "view data user by id ",
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "uuid"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "responses": {
-                        "200": {
-                            "description": "view course by id"
-                        },
-                        "401": {
-                            "description": "unauthorized from user"
-                        },
-                        "403": {
-                            "description": "forbidden from this resource"
-                        },
-                        "404": {
-                            "description": "some error message"
-                        }
-                        
-                    }
+      },
+    "/courses/search" : {
+        "post": {
+            "tags": [
+                "Courses"
+            ],
+            "summary": "view data user by id ",
+            "security": [
+                {
+                    "BearerAuth": []
                 }
-        },
-        
-        "/modules": {
-            "get": {
-                "tags": [
-                    "modules"
-                ],
-                "summary": "view module list data",
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "view module list data"
-                    }
-                }
-                },
-            "post": {
-                "tags": [
-                    "modules"
-                ],
-                "summary": "create a new module ",
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "title": {
-                                            "type": "string"
-                                        },
-                                        "video": {
-                                            "type": "string"
-                                        },
-                                        "time": {
-                                            "type": "number"
-                                        },
-                                        "courseId": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "responses": {
-                        "201": {
-                            "description": "modules data has been created"
-                        },
-                        "400": {
-                            "description": "invalid data structure from client"
-                        },
-                        "401": {
-                            "description": "unauthorized from user"
-                        },
-                        "403": {
-                            "description": "forbidden from this resource"
-                        },
-                        "404": {
-                            "description": "some error message"
-                        }
-                        
-                    }
-                },
-            "put": {
-                "tags": [
-                    "modules"
-                ],
-                "summary": "update course data",
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "requestBody": {
+            ],
+            "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
@@ -528,7 +2267,147 @@
                                 "properties": {
                                     "id": {
                                         "type": "uuid"
-                                    },
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "View course data successfully"
+                    },
+                    "401": {
+                        "description": "unauthorized from user"
+                    },
+                    "403": {
+                        "description": "forbidden from this resource"
+                    },
+                    "404": {
+                        "description": "some error message"
+                    }
+                    
+                }
+            }
+    },
+    "/courses/filter" : {
+        "post": {
+            "tags": [
+                "Courses"
+            ],
+            "summary": "view data user by category id ",
+            "security": [
+                {
+                    "BearerAuth": []
+                }
+            ],
+            "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "categoryId": {
+                                        "type": "uuid"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "View course data successfully"
+                    },
+                    "401": {
+                        "description": "unauthorized from user"
+                    },
+                    "403": {
+                        "description": "forbidden from this resource"
+                    },
+                    "404": {
+                        "description": "some error message"
+                    }
+                    
+                }
+            }
+    },
+    "/courses/level" : {
+        "post": {
+            "tags": [
+                "Courses"
+            ],
+            "summary": "view data user by level ",
+            "security": [
+                {
+                    "BearerAuth": []
+                }
+            ],
+            "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "level": {
+                                        "type": "enum"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "View course data successfully"
+                    },
+                    "401": {
+                        "description": "unauthorized from user"
+                    },
+                    "403": {
+                        "description": "forbidden from this resource"
+                    },
+                    "404": {
+                        "description": "some error message"
+                    }
+                    
+                }
+            }
+    },
+    
+    "/modules": {
+        "get": {
+            "tags": [
+                "Modules"
+            ],
+            "summary": "view module list data",
+            "security": [
+                {
+                    "BearerAuth": []
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "View all module data successfully"
+                }
+            }
+            },
+        "post": {
+            "tags": [
+                "Modules"
+            ],
+            "summary": "create a new module ",
+            "security": [
+                {
+                    "BearerAuth": []
+                }
+            ],
+            "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
                                     "title": {
                                         "type": "string"
                                     },
@@ -539,7 +2418,7 @@
                                         "type": "number"
                                     },
                                     "courseId": {
-                                        "type": "uuid"
+                                        "type": "string"
                                     }
                                 }
                             }
@@ -548,7 +2427,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "modules data has been updated"
+                        "description": "create module data has been successfully"
                     },
                     "400": {
                         "description": "invalid data structure from client"
@@ -560,102 +2439,114 @@
                         "description": "forbidden from this resource"
                     },
                     "404": {
-                        "description": "data not found"
+                        "description": "some error message"
+                    }
+                    
+                }
+            },
+        "put": {
+            "tags": [
+                "Modules"
+            ],
+            "summary": "update course data",
+            "security": [
+                {
+                    "BearerAuth": []
+                }
+            ],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "uuid"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "video": {
+                                    "type": "string"
+                                },
+                                "time": {
+                                    "type": "number"
+                                },
+                                "courseId": {
+                                    "type": "uuid"
+                                }
+                            }
+                        }
                     }
                 }
             },
-            "delete": {
-                "tags": [
-                    "modules"
-                ],
-                "summary": "delete data modules by id ",
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "uuid"
-                                        }
+            "responses": {
+                "201": {
+                    "description": "update module data has been successfully"
+                },
+                "400": {
+                    "description": "invalid data structure from client"
+                },
+                "401": {
+                    "description": "unauthorized from user"
+                },
+                "403": {
+                    "description": "forbidden from this resource"
+                },
+                "404": {
+                    "description": "data not found"
+                }
+            }
+        }
+    
+    },
+    "/modules/search" : {
+        "post": {
+            "tags": [
+                "Modules"
+            ],
+            "summary": "view data modules by id ",
+            "security": [
+                {
+                    "BearerAuth": []
+                }
+            ],
+            "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "uuid"
                                     }
                                 }
                             }
                         }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "View all module data successfully"
                     },
-                    "responses": {
-                        "201": {
-                            "description": "delete modules by id"
-                        },
-                        "401": {
-                            "description": "unauthorized from user"
-                        },
-                        "403": {
-                            "description": "forbidden from this resource"
-                        },
-                        "404": {
-                            "description": "some error message"
-                        }
-                        
-                    }
-                }
-        
-        },
-        "/modules/search" : {
-            "post": {
-                "tags": [
-                    "modules"
-                ],
-                "summary": "view data modules by id ",
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "uuid"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    "401": {
+                        "description": "unauthorized from user"
                     },
-                    "responses": {
-                        "201": {
-                            "description": "view modules by id"
-                        },
-                        "401": {
-                            "description": "unauthorized from user"
-                        },
-                        "403": {
-                            "description": "forbidden from this resource"
-                        },
-                        "404": {
-                            "description": "some error message"
-                        }
-                        
+                    "403": {
+                        "description": "forbidden from this resource"
+                    },
+                    "404": {
+                        "description": "some error message"
                     }
+                    
                 }
-        },
-
-
-
+            }
+    },
 
         "/courseTrackings": {
             "get": {
                 "tags": [
-                    "courseTrackings"
+                    "CourseTrackings"
                 ],
                 "summary": "view course tracking list data",
                 "security": [
@@ -665,13 +2556,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "view course tracking list data"
+                        "description": "View all module data successfully"
                     }
                 }
                 },
             "post": {
                 "tags": [
-                    "courseTrackings"
+                    "CourseTrackings"
                 ],
                 "summary": "add new data course tracking  ",
                 "security": [
@@ -701,7 +2592,7 @@
                     },
                     "responses": {
                         "201": {
-                            "description": "courseTrackings data has been created"
+                            "description": "create module data has been successfully"
                         },
                         "400": {
                             "description": "invalid data structure from client"
@@ -720,7 +2611,7 @@
                 },
             "put": {
                 "tags": [
-                    "courseTrackings"
+                    "CourseTrackings"
                 ],
                 "summary": "update course tracking data",
                 "security": [
@@ -753,7 +2644,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "courseTrackings data has been updated"
+                        "description": "update module data has been successfully"
                     },
                     "400": {
                         "description": "invalid data structure from client"
@@ -770,10 +2661,28 @@
                 }
             }
         },
+        "/courseTrackings/user": {
+          "get": {
+              "tags": [
+                  "CourseTrackings"
+              ],
+              "summary": "view course tracking list data by user ",
+              "security": [
+                  {
+                      "BearerAuth": []
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "View all module data successfully"
+                  }
+              }
+              }
+            },
         "/courseTrackings/search" : {
             "post": {
                 "tags": [
-                    "courseTrackings"
+                    "CourseTrackings"
                 ],
                 "summary": "view course tracking data by id ",
                 "security": [
@@ -798,6 +2707,48 @@
                     "responses": {
                         "201": {
                             "description": "view course tracking by id"
+                        },
+                        "401": {
+                            "description": "unauthorized from user"
+                        },
+                        "403": {
+                            "description": "forbidden from this resource"
+                        },
+                        "404": {
+                            "description": "some error message"
+                        }
+                        
+                    }
+                }
+        },
+        "/courseTrackings/userTrack" : {
+            "post": {
+                "tags": [
+                    "CourseTrackings"
+                ],
+                "summary": "view course tracking data by user and course id ",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "courseId": {
+                                            "type": "uuid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": {
+                            "description": "view course tracking by user and course id"
                         },
                         "401": {
                             "description": "unauthorized from user"
@@ -816,9 +2767,9 @@
         "/moduleTrackings": {
             "get": {
                 "tags": [
-                    "moduleTrackings"
+                    "ModuleTrackings"
                 ],
-                "summary": "view course list data",
+                "summary": "view module list data",
                 "security": [
                     {
                         "BearerAuth": []
@@ -826,15 +2777,15 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "view course list data"
+                        "description": "View all module tracking data successfully"
                     }
                 }
                 },
             "post": {
                 "tags": [
-                    "moduleTrackings"
+                    "ModuleTrackings"
                 ],
-                "summary": "add new data course tracking  ",
+                "summary": "add new data module tracking  ",
                 "security": [
                     {
                         "BearerAuth": []
@@ -862,7 +2813,7 @@
                     },
                     "responses": {
                         "201": {
-                            "description": "moduleTrackings data has been created"
+                            "description": "create module tracking data has been successfully"
                         },
                         "400": {
                             "description": "invalid data structure from client"
@@ -881,7 +2832,7 @@
                 },
             "put": {
                 "tags": [
-                    "moduleTrackings"
+                    "ModuleTrackings"
                 ],
                 "summary": "update course tracking data",
                 "security": [
@@ -914,7 +2865,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "moduleTrackings data has been updated"
+                        "description": "update module tracking data has been successfully"
                     },
                     "400": {
                         "description": "invalid data structure from client"
@@ -931,13 +2882,30 @@
                 }
             }
         },
-
+        "/moduleTrackings/user": {
+          "get": {
+              "tags": [
+                  "ModuleTrackings"
+              ],
+              "summary": "view module list data ",
+              "security": [
+                  {
+                      "BearerAuth": []
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "View all module tracking data successfully"
+                  }
+              }
+            }
+        },
         "/moduleTrackings/search" : {
             "post": {
                 "tags": [
-                    "moduleTrackings"
+                    "ModuleTrackings"
                 ],
-                "summary": "view course tracking data by id ",
+                "summary": "view module tracking data by id ",
                 "security": [
                     {
                         "BearerAuth": []
@@ -959,7 +2927,49 @@
                     },
                     "responses": {
                         "201": {
-                            "description": "view course tracking by id"
+                            "description": "View all module tracking data successfully"
+                        },
+                        "401": {
+                            "description": "unauthorized from user"
+                        },
+                        "403": {
+                            "description": "forbidden from this resource"
+                        },
+                        "404": {
+                            "description": "some error message"
+                        }
+                        
+                    }
+                }
+        },
+        "/moduleTrackings/userTrack" : {
+            "post": {
+                "tags": [
+                    "ModuleTrackings"
+                ],
+                "summary": "view module tracking data by user and course id ",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "courseId": {
+                                            "type": "uuid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": {
+                            "description": "View all module tracking data successfully"
                         },
                         "401": {
                             "description": "unauthorized from user"
@@ -974,113 +2984,5 @@
                     }
                 }
         }
-        
-    
-    },
-
-    
-    "components": {
-        "securitySchemes": {
-            "BearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        },
-
-
-        "schemas": {
-            "courses": {
-                "type": "object",
-                "properties": {
-                        "id": {
-                            "type": "uuid",
-                            "example": "550e8400-e29b-41d4-a716-446655440000"
-                        },
-                        "name": {
-                            "type": "string",
-                            "example": "Mobil Avanza"
-                        },
-                        "image": {
-                            "type": "string",
-                            "example": "https://firebasestorage.googleapis.com/v0/b/binar-course-402108.appspot.com/o/course-seed-1697616543758.jpg?alt=media&token=fbd8f719-7387-4415-b852-9da385cb99ad"
-                        },
-                        "rentPerDay": {
-                            "type": "integer",
-                            "example": 100000
-                        },
-                        "size": {
-                            "type": "string",
-                            "example": "Large"
-                        },
-                        "createdAt": {
-                            "type": "date-time",
-                            "example": "2023-10-20 20:30:13.053+07"
-                        },
-                        "updatedAt": {
-                            "type": "date-time",
-                            "example": "2023-10-20 20:30:13.053+07"
-                        },
-                        "deletedAt": {
-                            "type": "date-time",
-                            "example": "2023-10-20 20:30:13.053+07"
-                        },
-                        "createdBy": {
-                            "type": "uuid",
-                            "example": "550e8400-e29b-41d4-a716-446655440000"
-                        },
-                        "updatedBy": {
-                            "type": "uuid",
-                            "example": "550e8400-e29b-41d4-a716-446655440000"
-                        },
-                        "deletedBy": {
-                            "type": "uuid",
-                            "example": "550e8400-e29b-41d4-a716-446655440000"
-                        }
-                    }
-                },
-                "users": {
-                    "type": "object",
-                    "properties": {
-                            "id": {
-                                "type": "uuid",
-                                "example": "550e8400-e29b-41d4-a716-446655440000"
-                            },
-                            "name": {
-                                "type": "string",
-                                "example": "Uzumaki Naruto"
-                            },
-                            "handphone": {
-                                "type": "string",
-                                "example": "091334567890"
-                            },
-                            "address": {
-                                "type": "string",
-                                "example": "JAPAN"
-                            },
-                            "email": {
-                                "type": "string",
-                                "example": "naruto@gmail.com"
-                            },
-                            "password": {
-                                "type": "string",
-                                "example": "$2b$10$e8dC5u/mxy5HExlcv5.RpOFUlbDwWy0GFgdvYKzzDH5PYzmu9xG2u"
-                            },
-                            "role": {
-                                "type": "string",
-                                "enum" : ["admin", "superadmin" , "member"],
-                                "example": "admin"
-                            },
-                            "createdAt": {
-                                "type": "date-time",
-                                "example": "2023-10-20 20:30:13.053+07"
-                            },
-                            "updatedAt": {
-                                "type": "date-time",
-                                "example": "2023-10-20 20:30:13.053+07"
-                            }
-                        }
-                    }
-            }
-    }    
+    }
 }
