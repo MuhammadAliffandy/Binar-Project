@@ -1,0 +1,34 @@
+name: CD Backend CraftIQ
+
+on:
+  workflow_run:
+    workflows: ["CI Backend CraftIQ"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Login to Railway
+        run: railway login
+        env:
+          RAILWAY_ACCESS_TOKEN: ${{ secrets.RAILWAY_ACCESS_TOKEN }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Deploy to Railway
+        run: railway up
