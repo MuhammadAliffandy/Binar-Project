@@ -7,6 +7,7 @@ jest.mock('../../src/services/courseTrackingService', () => ({
     readCourseTrackingById : jest.fn(),
     createCourseTracking: jest.fn(),
     updatedCourseTracking: jest.fn(),
+    readCourseTrackingByUserTrack: jest.fn()
 }));
 
 describe('#courseTrackingController', () => {
@@ -357,6 +358,7 @@ describe('#courseTrackingController', () => {
 
             const mockNext = jest.fn();
 
+            CourseTrackingsService.readCourseTrackingByUserTrack.mockReturnValue([])
             await CourseTrackingsController.createValidation(mockReq,mockRes,mockNext);
 
             expect(mockNext).toHaveBeenCalled();
