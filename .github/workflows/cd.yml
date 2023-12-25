@@ -23,10 +23,10 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Login to Railway
-        run: railway login
+             RAILWAY_TOKEN=$RAILWAY_TOKEN railway up
         env:
-          RAILWAY_ACCESS_TOKEN: ${{ secrets.RAILWAY_ACCESS_TOKEN }}
-
+             RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+     
       - name: Install Dependencies
         run: npm install
 
