@@ -7,6 +7,7 @@ jest.mock('../../src/services/moduleTrackingService', () => ({
     readModuleTrackingById : jest.fn(),
     createModuleTracking: jest.fn(),
     updatedModuleTracking: jest.fn(),
+    readModuleTrackingByUserTrack: jest.fn()
 }));
 
 describe('#moduleTrackingController', () => {
@@ -240,6 +241,7 @@ describe('#moduleTrackingController', () => {
 
             const mockNext = jest.fn();
 
+            ModuleTrackingsService.readModuleTrackingByUserTrack.mockReturnValue([])
             await ModuleTrackingsController.createValidation(mockReq,mockRes,mockNext);
 
             expect(mockRes.status).toHaveBeenCalledWith(400);
