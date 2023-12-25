@@ -1,4 +1,4 @@
-name: CI/CD Backend CraftIQ
+name: CI Backend CraftIQ
 
 on:
   push:
