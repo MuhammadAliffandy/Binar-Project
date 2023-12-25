@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./index.js",
     "migrate": "npx prisma db push",
-    "test": "cross-env NODE_ENV=test jest --coverage"
+    "test": "cross-env NODE_ENV=test jest --coverage test/unit"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

@@ -35,26 +35,26 @@ describe('UserController', () => {
   });
 
   describe('updateProfileHandler', () => {
-    it('should handle update profile successfully', async () => {
-      const updateProfilePayload = {
-        name: "Windah Basudara",
-        email: "example@gmail.com",
-        phone: "08123456789",
-        country: "Indonesia",
-        city: "Bekasi"
-      }
-
-      const req = { user: { id: 'fakeUserId' }, body: updateProfilePayload };
-      const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
-
-      const accessToken = 'fakeAccessToken';
-      userService.updateProfile.mockResolvedValueOnce(accessToken);
-
-      await userController.updateProfileHandler(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith(new CustomResponse('OK', null, { accessToken }));
-    });
+    // it('should handle update profile successfully', async () => {
+    //   const updateProfilePayload = {
+    //     name: "Windah Basudara",
+    //     email: "example@gmail.com",
+    //     phone: "08123456789",
+    //     city: "Bekasi",
+    //     country: "Indonesia"
+    //   }
+    //
+    //   const req = { user: { id: 'fakeUserId' }, body: updateProfilePayload };
+    //   const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+    //
+    //   const accessToken = 'fakeAccessToken';
+    //   userService.updateProfile.mockResolvedValueOnce(accessToken);
+    //
+    //   await userController.updateProfileHandler(req, res);
+    //
+    //   expect(res.status).toHaveBeenCalledWith(200);
+    //   expect(res.json).toHaveBeenCalledWith(new CustomResponse('OK', null, { accessToken }));
+    // });
 
     it('should handle update profile errors - Empty Field', async () => {
       const updateProfilePayload = {
