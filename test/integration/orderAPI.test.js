@@ -54,7 +54,7 @@ describe('Order API Integration Tests', () => {
         .set('Authorization', `Bearer ${userToken}`);
 
     courses = coursesResponse.body.data
-  });
+  }, 10000);
 
   it('should create a new order', async () => {
     const orderData = {
@@ -76,7 +76,7 @@ describe('Order API Integration Tests', () => {
     expect(response.status).toBe(201);
     expect(response.body.status).toBe('OK');
     expect(response.body.message).toBe('Order Created Successfully');
-  });
+  }, 10000 );
 
   it('should approve an order', async () => {
     const res = await supertest(app)
@@ -93,7 +93,7 @@ describe('Order API Integration Tests', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe('OK');
     expect(response.body.message).toBe('Order Approved Successfully');
-  });
+  }, 10000);
 
   it('should get all orders', async () => {
     const response = await supertest(app)

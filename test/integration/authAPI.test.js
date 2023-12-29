@@ -95,7 +95,7 @@ describe('Auth API Integration Tests', () => {
 
   it('should reset password for a user', async () => {
     const resetPasswordData = {
-      email: 'cobacoba110802@gmail.com',
+      email: 'anos@gmail.com',
     };
 
     const response = await supertest(app)

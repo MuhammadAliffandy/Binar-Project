@@ -1,8 +1,8 @@
 const request = require('supertest');
 const app = require('../../index');
 
-const courseId = "1d9b677c-f08a-4e42-bbc5-94d1df42c5c8";
-const userDummy = "d6e3f245-95b2-45e3-8b97-ba81847ea46a";
+const courseId = "fc24b5a8-9d6f-47a6-aa4d-8a5076e98c81";
+const userDummy = "70ac73fe-86d4-43eb-b37d-4f36eb6a9357";
 
 beforeAll(async () => {
 
@@ -19,7 +19,7 @@ beforeAll(async () => {
                         .set('Authorization',`Bearer ${token}`)
                         .send({
                             status : "PROGRESS",
-                            userId: "899c5fa0-f64c-4966-868a-0d5a5720cfe7",
+                            userId: "7e280cde-c616-4c32-9e7a-8d6e7f700e25",
                             courseId: courseId
                         })
     courseTrackingDummy = createCourseTracking.body.data.id;

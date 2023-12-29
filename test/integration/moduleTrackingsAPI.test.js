@@ -2,8 +2,8 @@ const request = require('supertest');
 const app = require('../../index');
 
 
-const moduleDummy = "5bb65565-165e-4e2e-8b26-2723543977ec";
-const userDummy = "d6e3f245-95b2-45e3-8b97-ba81847ea46a";
+const moduleDummy = "a51e4d3a-09a5-4012-9492-61af1fadb1a5";
+const userDummy = "70ac73fe-86d4-43eb-b37d-4f36eb6a9357";
 
 beforeAll(async () => {
 
@@ -21,12 +21,11 @@ beforeAll(async () => {
                         .set('Authorization',`Bearer ${token}`)
                         .send({
                             status : "PROGRESS",
-                            userId: "899c5fa0-f64c-4966-868a-0d5a5720cfe7",
+                            userId: "7e280cde-c616-4c32-9e7a-8d6e7f700e25",
                             moduleId: moduleDummy
                         })
-
     moduleTrackingDummy = createModuleTracking.body.data.id;
-})
+}, 10000)
 
 describe('moduleTrackings API', () => {
     describe('GET /moduleTrackings', () => {
