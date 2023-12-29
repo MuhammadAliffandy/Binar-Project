@@ -23,12 +23,6 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Login to Railway
-        run: railway login
+        run : RAILWAY_TOKEN=$RAILWAY_TOKEN railway up --service Binar-Project
         env:
-          RAILWAY_ACCESS_TOKEN: ${{ secrets.RAILWAY_ACCESS_TOKEN }}
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Deploy to Railway
-        run: railway up
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
