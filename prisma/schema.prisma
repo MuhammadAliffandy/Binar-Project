@@ -106,7 +106,7 @@ model Module {
   time      Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  deleteAt  DateTime?
+  deletedAt  DateTime?
   chapter   Int      @default(1)
   course    Course?  @relation("moduleList", fields: [courseId], references: [id])
   courseId  String
