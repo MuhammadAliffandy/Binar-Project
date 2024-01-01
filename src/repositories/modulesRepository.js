@@ -7,7 +7,8 @@ const readModulesById = (payload) => {
 
     return prisma.Module.findUnique({
         where : {
-            id : id
+            id : id,
+            deletedAt : null
         }
     });
 }
