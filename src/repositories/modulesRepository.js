@@ -62,7 +62,7 @@ const updatedModules = (payload ) => {
 const deletedModules = (payload) => {
     const {id} = payload;
 
-    return prisma.Course.update({
+    return prisma.Module.update({
         where: {
             id : id  ,
         },
