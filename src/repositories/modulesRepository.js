@@ -13,7 +13,11 @@ const readModulesById = (payload) => {
 }
 
 const readModules = () => {
-    return prisma.Module.findMany();
+    return prisma.Module.findMany({
+        where : {
+            deletedAt : null
+        },
+    });
 }
 
 const createModules = (payload) => {
@@ -54,11 +58,27 @@ const updatedModules = (payload ) => {
     }) 
 }
 
+
+const deletedModules = (payload) => {
+    const {id} = payload;
+
+    return prisma.Course.update({
+        where: {
+            id : id  ,
+        },
+        data  : {
+            deletedAt: new Date(),
+        }
+    }) 
+}
+
+
 module.exports = {
     readModules,
     readModulesById,
     createModules,
     updatedModules,
+    deletedModules,
 }
 
 

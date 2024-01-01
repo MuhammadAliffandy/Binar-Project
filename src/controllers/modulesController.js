@@ -44,6 +44,16 @@ const updatedModules = async (req,res) => {
         errorHandler(res, err)
     }
 }
+const deletedModules = async (req,res) => {
+    try {
+        const payload = req.body;
+        const data = await ModulesService.deletedModules(payload);
+        return res.status(201).json(new CustomResponse("OK", "delete module data has been successfully", data))
+
+    } catch (err) {
+        errorHandler(res, err)
+    }
+}
 
 const createValidation = async(req , res , next) => {
 
@@ -136,6 +146,7 @@ module.exports = {
     updatedModules,
     createValidation,
     updateValidation,
+    deletedModules,
 }
 
 

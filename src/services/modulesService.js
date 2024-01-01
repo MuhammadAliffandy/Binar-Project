@@ -16,11 +16,16 @@ const updatedModules = (payload) => {
     return ModulesRepository.updatedModules(payload)
 }
 
+const deletedModules = (payload) => {
+    return ModulesRepository.deletedModules(payload)
+}
+
 module.exports = {
     readModules,
     readModulesById,
     createModules,
     updatedModules,
+    deletedModules
 }
 
 
