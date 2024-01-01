@@ -2497,8 +2497,48 @@
                     "description": "data not found"
                 }
             }
-        }
-    
+        },
+        "delete": {
+          "tags": [
+              "Modules"
+          ],
+          "summary": "delete data module by id ",
+          "security": [
+              {
+                  "BearerAuth": []
+              }
+          ],
+          "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "id": {
+                                      "type": "uuid"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "deleted module data has been successfully"
+                  },
+                  "401": {
+                      "description": "unauthorized from user"
+                  },
+                  "403": {
+                      "description": "forbidden from this resource"
+                  },
+                  "404": {
+                      "description": "some error message"
+                  }
+                  
+              }
+          }
+  
     },
     "/modules/search" : {
         "post": {
