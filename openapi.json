@@ -2448,7 +2448,7 @@
             "tags": [
                 "Modules"
             ],
-            "summary": "update course data",
+            "summary": "update module data",
             "security": [
                 {
                     "BearerAuth": []
