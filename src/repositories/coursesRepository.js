@@ -11,6 +11,9 @@ const readCourses = () => {
             module : {
                 include : {
                     moduleTracking :true
+                },
+                where : {
+                    deletedAt : null
                 }
             }
         }
