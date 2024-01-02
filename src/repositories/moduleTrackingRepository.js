@@ -15,7 +15,11 @@ const readModuleTrackingById = (payload) => {
 const readModuleTracking = () => {
     return prisma.ModuleTracking.findMany({
         include : {
-            module : true , 
+            module : {
+                where : {
+                    deletedAt : null
+                }
+            } , 
             user : true,
         }
     });
@@ -30,7 +34,11 @@ const readModuleTrackingByUser = (payload) => {
             userId : userId,
         },
         include : {
-            module : true,
+            module : {
+                where : {
+                    deletedAt : null
+                }
+            },
             user : true 
         }
     });

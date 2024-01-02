@@ -10,8 +10,14 @@ const readCourseTracking = () => {
                     module : {
                         include : {
                             moduleTracking : true
+                        },
+                        where : {
+                            deletedAt : null
                         }
                     }
+                },
+                where : {
+                    deletedAt : null
                 }
             },
             user : true,
@@ -41,7 +47,14 @@ const readCourseTrackingByUser = (payload) => {
             course : {
                 include : {
                     category : true, 
-                    module : true
+                    module : {
+                        where : {
+                            deletedAt : null
+                        }
+                    }
+                },
+                where : {
+                    deletedAt : null
                 }
             },
             user : true,
